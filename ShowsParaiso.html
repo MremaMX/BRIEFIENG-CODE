@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shows · Paraíso Maya</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: #0c1e24;
+      font-family: 'Segoe UI', sans-serif;
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 16px 14px;
+      height: 100%;
+    }
+
+    .titulo {
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #c9e8f0;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .subtitulo {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #5a8a96;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .error-msg {
+      font-size: 11px;
+      color: #e05555;
+      margin-bottom: 10px;
+      text-align: center;
+      min-height: 16px;
+    }
+
+    .grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .columna {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .col-header {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      padding: 7px 4px;
+      border-radius: 6px;
+      margin-bottom: 2px;
+    }
+
+    .col-es { background: #1a4a5a; color: #a8d8e8; }
+    .col-en { background: #1a3a2a; color: #a8d8b8; }
+
+    .btn-dia {
+      width: 100%;
+      padding: 10px 8px;
+      border: none;
+      border-radius: 8px;
+      background: #1e3a42;
+      color: #c0dde6;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.15s, color 0.15s;
+      overflow: hidden;
+    }
+
+    .btn-dia:hover {
+      background: #2a5060;
+      color: #e0f4ff;
+    }
+
+    .btn-dia:active {
+      background: #1a2e36;
+    }
+
+    .feedback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(20, 60, 30, 0.92);
+      color: #6deca8;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+
+    .feedback.visible {
+      opacity: 1;
+    }
+
+    .cargando {
+      color: #5a8a96;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 20px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="titulo">SHOWS · PARAÍSO MAYA</div>
+    <div class="subtitulo">SELECCIONA DÍA E IDIOMA · COPIA AL INSTANTE</div>
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="grid" id="grid" style="display:none;">
+      <div class="columna">
+        <div class="col-header col-es">🇲🇽 ESPAÑOL</div>
+        <div id="botonesES"></div>
+      </div>
+      <div class="columna">
+        <div class="col-header col-en">🇺🇸 ENGLISH</div>
+        <div id="botonesEN"></div>
+      </div>
+    </div>
+
+    <div class="cargando" id="cargando">Cargando mensajes…</div>
+  </div>
+
+  <script>
+    var mensajes = { en: {}, es: {} };
+    var dias = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
+    var etiquetas = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "DOMINGO"];
+
+    function crearBoton(idioma, diaKey, etiqueta) {
+      var wrapper = document.createElement('div');
+      wrapper.style.position = 'relative';
+
+      var btn = document.createElement('button');
+      btn.className = 'btn-dia';
+      btn.textContent = etiqueta;
+
+      var fb = document.createElement('div');
+      fb.className = 'feedback';
+      fb.textContent = '¡Copiado!';
+
+      btn.onclick = function() { copiar(idioma, diaKey, fb); };
+
+      wrapper.appendChild(btn);
+      wrapper.appendChild(fb);
+      return wrapper;
+    }
+
+    function renderBotones() {
+      var esContainer = document.getElementById('botonesES');
+      var enContainer = document.getElementById('botonesEN');
+      esContainer.innerHTML = '';
+      enContainer.innerHTML = '';
+
+      for (var i = 0; i < dias.length; i++) {
+        esContainer.appendChild(crearBoton('es', dias[i], etiquetas[i]));
+        enContainer.appendChild(crearBoton('en', dias[i], etiquetas[i]));
+      }
+    }
+
+    function copiar(idioma, dia, feedbackEl) {
+      var texto = mensajes[idioma][dia];
+      if (!texto) texto = '(sin mensaje)';
+
+      navigator.clipboard.writeText(texto).then(function() {
+        mostrarFeedback(feedbackEl);
+      }).catch(function() {
+        // Fallback para entornos sin clipboard API
+        var ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(ta);
+        mostrarFeedback(feedbackEl);
+      });
+    }
+
+    function mostrarFeedback(el) {
+      el.classList.add('visible');
+      setTimeout(function() { el.classList.remove('visible'); }, 1500);
+    }
+
+    function onSuccess(data) {
+      document.getElementById('cargando').style.display = 'none';
+
+      if (data && data.error) {
+        document.getElementById('errorMsg').textContent = data.error;
+        return;
+      }
+
+      if (data && data.en && data.es) {
+        mensajes = data;
+      }
+
+      renderBotones();
+      document.getElementById('grid').style.display = 'grid';
+    }
+
+    function onError(err) {
+      document.getElementById('cargando').style.display = 'none';
+      document.getElementById('errorMsg').textContent = 'Error al cargar los mensajes.';
+      // Render buttons anyway so UI is usable with empty fallback
+      renderBotones();
+      document.getElementById('grid').style.display = 'grid';
+    }
+
+    google.script.run
+      .withSuccessHandler(onSuccess)
+      .withFailureHandler(onError)
+      .getMensajesShowsParaiso();
+  </script>
+</body>
+</html>
