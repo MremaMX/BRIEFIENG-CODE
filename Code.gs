@@ -69,6 +69,11 @@ function doGet(e) {
         .setTitle('Flyer Sunset Cocktail')
         .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 
+  } else if (hotel === "showsparaiso") {
+    return HtmlService.createHtmlOutputFromFile('ShowsParaiso')
+        .setTitle('Shows · Paraíso Maya')
+        .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+
   } else {
     return HtmlService.createHtmlOutputFromFile('Page')
         .setTitle('Panel Selection Lindo/Maya')
@@ -3208,4 +3213,42 @@ function aplicarFormato(sheet, col) {
     '#000000',
     SpreadsheetApp.BorderStyle.DOTTED
   );
+}
+/**
+ * getMensajesShowsParaiso()
+ * Lee la hoja "SPAM SHOWS PARAISO MAYA" y devuelve los mensajes de los 7 días
+ * en inglés (columnas B:H) y español (columnas J:P).
+ * La celda superior-izquierda de cada rango combinado contiene el texto completo.
+ */
+function getMensajesShowsParaiso() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var hoja = ss.getSheetByName("SPAM SHOWS PARAISO MAYA");
+  if (!hoja) {
+    return { error: "No se encontró la hoja 'SPAM SHOWS PARAISO MAYA'" };
+  }
+
+  // Celdas superiores-izquierdas de cada rango combinado
+  var celdasEN = ["B4", "B13", "B27", "B39", "B48", "B62", "B76"];
+  var celdasES = ["J4", "J13", "J27", "J39", "J48", "J62", "J76"];
+  var dias = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
+
+  var resultado = { en: {}, es: {} };
+
+  for (var i = 0; i < dias.length; i++) {
+    resultado.en[dias[i]] = hoja.getRange(celdasEN[i]).getValue() || "";
+    resultado.es[dias[i]] = hoja.getRange(celdasES[i]).getValue() || "";
+  }
+
+  return resultado;
+}
+
+/**
+ * abrirShowsParaiso()
+ * Abre la ventana flotante del panel Shows Paraíso Maya.
+ */
+function abrirShowsParaiso() {
+  var url = "https://script.google.com/a/macros/iberostar.com/s/AKfycbzzu-EQRf4Qsz9sQkyByxKgtGPtIcBm0BZ7xd2cPmji72gyhlhPChD41tDP1-wM5PYFOA/exec";
+  var html = "<script>window.open('" + url + "?hotel=showsparaiso','_blank','width=520,height=620');google.script.host.close();</script>";
+  var ui = HtmlService.createHtmlOutput(html).setWidth(200).setHeight(100);
+  SpreadsheetApp.getUi().showModalDialog(ui, "Abriendo Shows Paraíso Maya...");
 }
