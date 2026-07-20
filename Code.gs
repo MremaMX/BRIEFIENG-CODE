@@ -74,6 +74,201 @@ function doGet(e) {
         .setTitle('Shows · Paraíso Maya')
         .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 
+  } else if (hotel === "minigolf") {
+    return HtmlService.createHtmlOutput(`<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MINIGOLF</title>
+    <style>
+        :root {
+            --fondo-joia: #17505a;
+            --crema-joia: #e7dac5;
+            --azul-oscuro: #0f353d;
+            --dorado-borde: #a68966;
+        }
+
+        /* RESET */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; width: 100%; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            background: #ffffff;
+        }
+
+        .main-viewport {
+            position: relative;
+            z-index: 6;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 2vmin;
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        /* HEADER */
+        .header-joia {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #000000;
+            width: 100%;
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        /* TITULO */
+        .joia-tit {
+            font-family: 'Century Gothic', 'Trebuchet MS', sans-serif;
+            font-weight: 300;
+            font-size: clamp(45px, 8vw, 90px);
+            line-height: 1;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            color: #000000;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .container {
+            background: transparent;
+            padding: clamp(15px, 2.5vmin, 40px);
+            border-radius: 0px;
+            box-shadow: none;
+            border-top: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 95vw;
+            height: auto;
+            position: relative;
+            z-index: 7;
+            overflow: visible;
+            flex: 1;
+        }
+
+        .gala-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(8px, 1.5vmin, 20px);
+        }
+
+        .gala-card {
+            width: clamp(100px, 12vw, 180px);
+            height: clamp(250px, 45vh, 500px);
+            background: #fff;
+            border-radius: clamp(10px, 1.5vw, 20px);
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: grab;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+        }
+        .gala-card:hover {
+            width: clamp(250px, 28vw, 450px);
+            transform: translateY(-30px) scale(1.05) !important;
+            z-index: 999;
+            box-shadow: 0 50px 90px rgba(0,0,0,0.45), 0 0 18px rgba(255,255,255,0.12);
+            filter: brightness(1.06) !important;
+            opacity: 1 !important;
+        }
+
+        .img-wrapper { width: 100%; height: 100%; overflow: hidden; }
+
+        .gala-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: blur(2px);
+            transform: scale(1.18);
+            transition: filter 0.6s ease, transform 4s linear;
+        }
+        .gala-card:hover img {
+            filter: blur(0px);
+            transform: scale(1.03);
+        }
+
+        .card-label {
+            display: none;
+        }
+
+        .instrucciones {
+            margin-top: auto;
+            padding-bottom: 20px;
+            color: rgba(0, 0, 0, 0.85);
+            font-size: clamp(12px, 1.5vw, 14px);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 6;
+            padding: 0 10px;
+        }
+
+        @media (max-width: 720px) {
+            html, body {
+                width: 100vw;
+                height: 100vh;
+                transform: rotate(0deg);
+                orientation: portrait;
+            }
+            
+            .gala-card { width: 44vw; }
+            .gala-card:hover { width: 72vw; }
+            .container { max-height: 80vh; padding: 4vmin; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-viewport" role="main" aria-label="MINIGOLF landing">
+        <div class="header-joia">
+            <div class="joia-tit">MINIGOLF</div>
+        </div>
+
+        <div class="container">
+            <div class="gala-flex">
+                <div class="gala-card">
+                    <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1GXSFwIlHcvNQwFp_XdZGk34XnEvKoty1" draggable="true" alt="Imagen"></div>
+                    <div class="card-label"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instrucciones">
+            Arrastra y suelta en la bandeja de la app donde se cargan los archivos
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        // No scripts needed
+    })();
+    </script>
+</body>
+</html>`)
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+
   } else {
     return HtmlService.createHtmlOutputFromFile('Page')
         .setTitle('Panel Selection Lindo/Maya')
@@ -681,6 +876,18 @@ function onOpen() {
   try {
     // Menú "GALA" eliminado por petición del usuario (no crear).
   } catch(e){ Logger.log('onOpen menu creation skipped: ' + e); }
+  try {
+    const ui = SpreadsheetApp.getUi();
+    ui.createMenu('MINIGOLF')
+      .addItem('Abrir MINIGOLF', 'abrirMINIGOLF')
+      .addToUi();
+  } catch(e){ Logger.log('onOpen MINIGOLF menu skipped: ' + e); }
+  try {
+    const ui = SpreadsheetApp.getUi();
+    ui.createMenu('Acciones')
+      .addItem('Agregar', 'procesarHabitaciones')
+      .addToUi();
+  } catch(e){ Logger.log('onOpen Acciones menu skipped: ' + e); }
   try {
     normalizeStoredWidthToSheet();
     updateHoyRow();
@@ -2349,13 +2556,6 @@ function getMensajesWaves() {
   };
 }
 
-function onOpen() {
-  const ui = SpreadsheetApp.getUi();
-  ui.createMenu('MINIGOLF')
-    .addItem('Abrir MINIGOLF', 'abrirMINIGOLF')
-    .addToUi();
-}
-
 function abrirMINIGOLF() {
   const url = 'https://script.google.com/a/macros/iberostar.com/s/AKfycbxk9bTHpkUNrLMfTzu9wp7d8ad29dPS0Cjwt25qXT9BGPXMEyig7hFatWsNuDcMUJX3Cw/exec';
   
@@ -2364,202 +2564,6 @@ function abrirMINIGOLF() {
   );
   
   SpreadsheetApp.getUi().showModelessDialog(html, ' ');
-}
-
-function doGet(e) {
-  return HtmlService.createHtmlOutput(`<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>MINIGOLF</title>
-    <style>
-        :root {
-            --fondo-joia: #17505a;
-            --crema-joia: #e7dac5;
-            --azul-oscuro: #0f353d;
-            --dorado-borde: #a68966;
-        }
-
-        /* RESET */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; width: 100%; }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
-            position: relative;
-            background: #ffffff;
-        }
-
-        .main-viewport {
-            position: relative;
-            z-index: 6;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 2vmin;
-            width: 100%;
-            max-width: 600px;
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-top: 20px;
-        }
-
-        /* HEADER */
-        .header-joia {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #000000;
-            width: 100%;
-            flex-shrink: 0;
-            z-index: 20;
-        }
-
-        /* TITULO */
-        .joia-tit {
-            font-family: 'Century Gothic', 'Trebuchet MS', sans-serif;
-            font-weight: 300;
-            font-size: clamp(45px, 8vw, 90px);
-            line-height: 1;
-            margin: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            color: #000000;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-
-        .container {
-            background: transparent;
-            padding: clamp(15px, 2.5vmin, 40px);
-            border-radius: 0px;
-            box-shadow: none;
-            border-top: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 95vw;
-            height: auto;
-            position: relative;
-            z-index: 7;
-            overflow: visible;
-            flex: 1;
-        }
-
-        .gala-flex {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: clamp(8px, 1.5vmin, 20px);
-        }
-
-        .gala-card {
-            width: clamp(100px, 12vw, 180px);
-            height: clamp(250px, 45vh, 500px);
-            background: #fff;
-            border-radius: clamp(10px, 1.5vw, 20px);
-            overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: grab;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-        }
-        .gala-card:hover {
-            width: clamp(250px, 28vw, 450px);
-            transform: translateY(-30px) scale(1.05) !important;
-            z-index: 999;
-            box-shadow: 0 50px 90px rgba(0,0,0,0.45), 0 0 18px rgba(255,255,255,0.12);
-            filter: brightness(1.06) !important;
-            opacity: 1 !important;
-        }
-
-        .img-wrapper { width: 100%; height: 100%; overflow: hidden; }
-
-        .gala-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            filter: blur(2px);
-            transform: scale(1.18);
-            transition: filter 0.6s ease, transform 4s linear;
-        }
-        .gala-card:hover img {
-            filter: blur(0px);
-            transform: scale(1.03);
-        }
-
-        .card-label {
-            display: none;
-        }
-
-        .instrucciones {
-            margin-top: auto;
-            padding-bottom: 20px;
-            color: rgba(0, 0, 0, 0.85);
-            font-size: clamp(12px, 1.5vw, 14px);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-align: center;
-            z-index: 6;
-            padding: 0 10px;
-        }
-
-        @media (max-width: 720px) {
-            html, body {
-                width: 100vw;
-                height: 100vh;
-                transform: rotate(0deg);
-                orientation: portrait;
-            }
-            
-            .gala-card { width: 44vw; }
-            .gala-card:hover { width: 72vw; }
-            .container { max-height: 80vh; padding: 4vmin; }
-        }
-    </style>
-</head>
-<body>
-    <div class="main-viewport" role="main" aria-label="MINIGOLF landing">
-        <div class="header-joia">
-            <div class="joia-tit">MINIGOLF</div>
-        </div>
-
-        <div class="container">
-            <div class="gala-flex">
-                <div class="gala-card">
-                    <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1GXSFwIlHcvNQwFp_XdZGk34XnEvKoty1" draggable="true" alt="Imagen"></div>
-                    <div class="card-label"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="instrucciones">
-            Arrastra y suelta en la bandeja de la app donde se cargan los archivos
-        </div>
-    </div>
-
-    <script>
-    (function () {
-        // No scripts needed
-    })();
-    </script>
-</body>
-</html>`)
-  .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 function generarSpamMinigolf() {
@@ -2978,13 +2982,6 @@ function generarSpamMinigolf() {
   if (stateRows.length > 0) {
     stateSheet.getRange(1, 1, stateRows.length, 7).setValues(stateRows);
   }
-}
-
-function onOpen() {
-  const ui = SpreadsheetApp.getUi();
-  ui.createMenu('Acciones')
-    .addItem('Agregar', 'procesarHabitaciones')
-    .addToUi();
 }
 
 function procesarHabitaciones() {
