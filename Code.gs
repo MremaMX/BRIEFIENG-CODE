@@ -74,6 +74,11 @@ function doGet(e) {
         .setTitle('Shows · Paraíso Maya')
         .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 
+  } else if (hotel === "showsmaya") {
+    return HtmlService.createHtmlOutputFromFile('ShowsMaya')
+        .setTitle('Shows Maya')
+        .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+
   } else if (hotel === "minigolf") {
     return HtmlService.createHtmlOutput(`<!DOCTYPE html>
 <html lang="es">
@@ -3248,4 +3253,15 @@ function abrirShowsParaiso() {
   var html = "<script>window.open('" + url + "?hotel=showsparaiso','_blank','width=520,height=620');google.script.host.close();</script>";
   var ui = HtmlService.createHtmlOutput(html).setWidth(200).setHeight(100);
   SpreadsheetApp.getUi().showModalDialog(ui, "Abriendo Shows Paraíso Maya...");
+}
+
+/**
+ * abrirShowsMaya()
+ * Abre la ventana flotante del panel Shows del teatro en Iberostar Maya.
+ */
+function abrirShowsMaya() {
+  var url = "TU_URL_DE_DESPLIEGUE_AQUI"; // placeholder — reemplazar con la URL real de la implementación
+  var html = "<script>window.open('" + url + "?hotel=showsmaya','_blank','width=520,height=700');google.script.host.close();<\/script>";
+  var ui = HtmlService.createHtmlOutput(html).setWidth(200).setHeight(100);
+  SpreadsheetApp.getUi().showModalDialog(ui, "Abriendo Shows Maya...");
 }
