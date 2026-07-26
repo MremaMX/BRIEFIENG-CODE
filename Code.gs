@@ -2561,6 +2561,21 @@ function getMensajesWaves() {
   };
 }
 
+/**
+ * traducirActividades(texto, targetLang)
+ * Traduce la lista de actividades del español al idioma destino.
+ * Preserva el formato de bullets (•) línea por línea.
+ */
+function traducirActividades(texto, targetLang) {
+  try {
+    if (!texto || targetLang === 'es') return texto;
+    return LanguageApp.translate(texto, 'es', targetLang);
+  } catch(e) {
+    Logger.log('traducirActividades error: ' + e);
+    return texto;
+  }
+}
+
 function abrirMINIGOLF() {
   const url = 'https://script.google.com/a/macros/iberostar.com/s/AKfycbxk9bTHpkUNrLMfTzu9wp7d8ad29dPS0Cjwt25qXT9BGPXMEyig7hFatWsNuDcMUJX3Cw/exec';
   
@@ -3260,8 +3275,23 @@ function abrirShowsParaiso() {
  * Abre la ventana flotante del panel Shows del teatro en Iberostar Maya.
  */
 function abrirShowsMaya() {
-  var url = "TU_URL_DE_DESPLIEGUE_AQUI"; // placeholder — reemplazar con la URL real de la implementación
-  var html = "<script>window.open('" + url + "?hotel=showsmaya','_blank','width=520,height=700');google.script.host.close();<\/script>";
+  var url = "https://script.google.com/a/macros/iberostar.com/s/AKfycbzeLXWdnX8sD37dbpvgyMuOE4SjN8fadN_PYbPdtGPrVkSbNKJjSmyAq-U0a67gghqj9A/exec"; // placeholder — reemplazar con la URL real de la implementación
+  var html = "<script>window.open('" + url + "?hotel=showsmaya','_blank','width=520,height=930');google.script.host.close();<\/script>";
   var ui = HtmlService.createHtmlOutput(html).setWidth(200).setHeight(100);
   SpreadsheetApp.getUi().showModalDialog(ui, "Abriendo Shows Maya...");
+}
+
+/**
+ * traducirTexto(texto, targetLang)
+ * Traduce cualquier texto del español al idioma destino usando LanguageApp.
+ * Usado por ShowsMaya.html para traducir el nombre del Show.
+ */
+function traducirTexto(texto, targetLang) {
+  try {
+    if (!texto || targetLang === 'es') return texto;
+    return LanguageApp.translate(texto, 'es', targetLang);
+  } catch(e) {
+    Logger.log('traducirTexto error: ' + e);
+    return texto;
+  }
 }
