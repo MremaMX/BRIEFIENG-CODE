@@ -115,12 +115,20 @@
       text-align: center;
     }
 
-    /* ── LANGUAGE SELECTOR ── */
+    /* ── TOP ACTIONS: LANGUAGE + COPY ── */
+    .top-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
     .lang-row {
       display: flex;
       gap: 6px;
-      justify-content: center;
-      margin-bottom: 14px;
+      justify-content: flex-start;
+      flex-wrap: wrap;
     }
 
     .btn-lang {
@@ -153,6 +161,47 @@
       border-color: var(--selected-color);
       color: #ffffff;
       box-shadow: 0 0 14px rgba(13, 198, 212, 0.5);
+    }
+
+    /* Botón copiar en la esquina derecha */
+    .btn-copiar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 10px 18px;
+      background: #184f5b;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transform-origin: right center;
+      transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1),
+                  background 0.3s ease,
+                  box-shadow 0.3s ease,
+                  padding 0.35s cubic-bezier(0.34, 1.8, 0.64, 1);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .btn-copiar:hover {
+      transform: scale(1.04) translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+    }
+
+    .btn-copiar:active {
+      transform: scale(0.98);
+    }
+
+    .btn-copiar.copiado {
+      background: #00BFFF;
+      padding-left: 22px;
+      padding-right: 22px;
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 0 22px rgba(0, 191, 255, 0.8), 0 0 50px rgba(0, 191, 255, 0.5), 0 12px 24px rgba(0, 191, 255, 0.35);
     }
 
     /* ── CONCIERGE SECTION ── */
@@ -300,77 +349,49 @@
       font-style: italic;
     }
 
-    /* ── COPY BUTTON ── */
-    .btn-copy-wrap {
-      position: relative;
+    /* ── CANCELACIONES ── */
+    .cancel-row {
       display: flex;
       justify-content: center;
-      padding-bottom: 10px;
-      min-height: 64px;
+      padding-top: 4px;
+      padding-bottom: 4px;
     }
 
-    .btn-copiar {
-      display: inline-block;
-      padding: 14px 32px;
-      background: #184f5b;
+    .btn-cancel-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .btn-cancel-text {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: lowercase;
       color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      font-family: 'Segoe UI', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1),
-                  background 0.3s ease,
-                  box-shadow 0.3s ease,
-                  padding 0.35s cubic-bezier(0.34, 1.8, 0.64, 1);
-      white-space: nowrap;
-      overflow: hidden;
     }
 
-    .btn-copiar:hover {
-      transform: scale(1.04) translateY(-3px);
-      box-shadow: 0 16px 36px rgba(0,0,0,0.2);
-    }
-
-    .btn-copiar:active {
-      transform: scale(0.98);
-    }
-
-    .btn-copiar.copiado {
-      background: #00BFFF;
-      padding: 14px 20px;
-      transform: scale(1.08) translateY(-2px);
-      box-shadow: 0 0 22px rgba(0, 191, 255, 0.8), 0 0 50px rgba(0, 191, 255, 0.5), 0 12px 24px rgba(0, 191, 255, 0.35);
-    }
-
-    .btn-modo-fuego {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      padding: 8px 12px;
+    .btn-cancel-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
       background: rgba(24, 79, 91, 0.95);
-      color: #c9ecf4;
-      border: 1px solid rgba(50, 166, 154, 0.55);
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+      border: 1.5px solid rgba(50, 166, 154, 0.55);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
     }
 
-    .btn-modo-fuego:hover {
+    .btn-cancel-label:hover .btn-cancel-dot {
       transform: translateY(-2px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
       border-color: rgba(50, 166, 154, 0.8);
     }
 
-    .btn-modo-fuego.activo {
+    .btn-cancel-label.activo .btn-cancel-dot {
       background: #c0392b;
       border-color: #c0392b;
-      color: #ffffff;
       box-shadow: 0 0 14px rgba(192, 57, 43, 0.55);
     }
   </style>
@@ -394,12 +415,15 @@
         <div class="card-title">SHOWS MAYA</div>
       </div>
 
-      <!-- Language Selector -->
-      <div class="lang-row">
-        <button class="btn-lang" data-lang="es">Español</button>
-        <button class="btn-lang" data-lang="en">Inglés</button>
-        <button class="btn-lang" data-lang="fr">Francés</button>
-        <button class="btn-lang" data-lang="de">Alemán</button>
+      <!-- Languages + Copy button -->
+      <div class="top-actions-row">
+        <div class="lang-row">
+          <button class="btn-lang" data-lang="es">Español</button>
+          <button class="btn-lang" data-lang="en">Inglés</button>
+          <button class="btn-lang" data-lang="fr">Francés</button>
+          <button class="btn-lang" data-lang="de">Alemán</button>
+        </div>
+        <button class="btn-copiar" id="btnCopy">COPIAR</button>
       </div>
 
       <!-- Concierge Buttons -->
@@ -457,10 +481,12 @@
 
       </div>
 
-      <!-- Copy Button -->
-      <div class="btn-copy-wrap">
-        <button class="btn-copiar" id="btnCopy">COPIAR MENSAJE</button>
-        <button class="btn-modo-fuego" id="btnModoFuego">🔥 CANCELACIÓN</button>
+      <!-- Cancelaciones -->
+      <div class="cancel-row">
+        <div class="btn-cancel-label" id="btnModoFuego">
+          <span class="btn-cancel-text">cancelaciones</span>
+          <span class="btn-cancel-dot"></span>
+        </div>
       </div>
 
     </div>
@@ -562,11 +588,9 @@
     });
 
     // ── PM AUTOMÁTICO EN HORA ──
-    // Al salir del campo hora, añade PM al final si no lo tiene ya
     document.getElementById('inputHora').addEventListener('blur', function() {
       var val = this.value.trim();
       if (!val) return;
-      // Quitar am/pm/AM/PM existente para normalizar
       var sinPM = val.replace(/\s*(AM|PM|am|pm)\s*$/i, '').trim();
       if (sinPM) {
         this.value = sinPM + ' PM';
@@ -616,7 +640,7 @@
       'mirador':     { es: 'el Mirador',     en: 'the Viewpoint',  fr: 'le Mirador',    de: 'dem Aussichtspunkt' },
       'palacio':     { es: 'el Palacio',     en: 'the Palace',     fr: 'le Palais',     de: 'dem Palast'         },
       'hacienda':    { es: 'la Hacienda',    en: 'the Hacienda',   fr: "l'Hacienda",    de: 'der Hacienda'       },
-      'cascada':     { es: 'la Cascada',     en: 'the Waterfall',  fr: 'la Cascade',    de: 'dem Wasserfall'     },
+      'cascada':     { es: 'la Cascada',     en: 'the Waterfall',  fr: 'la Cascade',    de: 'dem Wasserfall'     }
     };
 
     function conLugarLocalizado(lugarRaw, lang) {
@@ -626,7 +650,6 @@
           return lugaresDict[clave][lang] || lugaresDict[clave]['es'];
         }
       }
-      // No reconocido: artículo genérico según idioma
       var lugar = toTitleCase(lugarRaw.trim());
       if (lang === 'en') return 'the ' + lugar;
       if (lang === 'fr') return 'le ' + lugar;
@@ -636,7 +659,6 @@
 
     function lugarUpperTraducido(lugarRaw, lang) {
       var localizado = conLugarLocalizado(lugarRaw, lang);
-      // Quitar el artículo para la sección en mayúsculas
       return localizado.replace(/^(el |la |the |le |l'|dem |der )/i, '').toUpperCase();
     }
 
@@ -674,19 +696,18 @@
     document.getElementById('inputActividadesPrincipales').addEventListener('paste', limpiarComillasAlPegar);
 
     // ── TEMPLATES ──
-    // NOTA: en ES y EN el departamento es siempre "Guest Service" (sin 's' final en ES, sin 's' en EN)
     var templates = {
       es: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
-        return "Estimado Hu\u00e9sped,\n\n" +
+        return "Estimado Huésped,\n\n" +
           "Le saluda su concierge " + nombre + " del Departamento de Guest Service. " +
-          "Esperamos que est\u00e9 disfrutando de su estancia.\n\n" +
+          "Esperamos que esté disfrutando de su estancia.\n\n" +
           "Le invitamos a nuestro show: " + show + " en " + lugar + " a las " + hora + ". " +
-          "Adem\u00e1s, tenemos una variedad de actividades programadas que tendr\u00e1n lugar en el Bar Kukulc\u00e1n:\n\n" +
+          "Además, tenemos una variedad de actividades programadas que tendrán lugar en el Bar Kukulcán:\n\n" +
           actividades + "\n\n" +
           "--------------------------------------------\n\n" +
           "Actividad principal en " + lugarUp + " a las " + hora + ":\n\n" +
           "\u2022 " + showUpper + "\n\n" +
-          "Ser\u00e1 un placer contar con su presencia en estos eventos exclusivos.\n\n" +
+          "Será un placer contar con su presencia en estos eventos exclusivos.\n\n" +
           "Atentamente,\n" +
           "Departamento de Guest Service.";
       },
@@ -695,7 +716,7 @@
           "This is your concierge " + nombre + " from the Guest Service Department. " +
           "We hope you are enjoying your stay.\n\n" +
           "We would like to invite you to our show: " + show + " at " + lugar + " at " + hora + ". " +
-          "Additionally, we have a variety of activities scheduled at Bar Kukulc\u00e1n:\n\n" +
+          "Additionally, we have a variety of activities scheduled at Bar Kukulcán:\n\n" +
           actividades + "\n\n" +
           "--------------------------------------------\n\n" +
           "Main activity at " + lugarUp + " at " + hora + ":\n\n" +
@@ -706,30 +727,30 @@
       },
       fr: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
         return "Cher Client,\n\n" +
-          "Votre concierge " + nombre + " du D\u00e9partement Guest Service vous contacte. " +
-          "Nous esp\u00e9rons que vous profitez pleinement de votre s\u00e9jour.\n\n" +
-          "Nous vous invitons \u00e0 notre show : " + show + " \u00e0 " + lugar + " \u00e0 " + hora + ". " +
-          "De plus, nous avons une vari\u00e9t\u00e9 d'activit\u00e9s programm\u00e9es au Bar Kukulc\u00e1n :\n\n" +
+          "Votre concierge " + nombre + " du Département Guest Service vous contacte. " +
+          "Nous espérons que vous profitez pleinement de votre séjour.\n\n" +
+          "Nous vous invitons à notre show : " + show + " à " + lugar + " à " + hora + ". " +
+          "De plus, nous avons une variété d'activités programmées au Bar Kukulcán :\n\n" +
           actividades + "\n\n" +
           "--------------------------------------------\n\n" +
-          "Activit\u00e9 principale \u00e0 " + lugarUp + " \u00e0 " + hora + " :\n\n" +
+          "Activité principale à " + lugarUp + " à " + hora + " :\n\n" +
           "\u2022 " + showUpper + "\n\n" +
-          "Ce sera un plaisir de vous accueillir lors de ces \u00e9v\u00e9nements exclusifs.\n\n" +
+          "Ce sera un plaisir de vous accueillir lors de ces événements exclusifs.\n\n" +
           "Cordialement,\n" +
-          "D\u00e9partement Guest Service.";
+          "Département Guest Service.";
       },
       de: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
         return "Lieber Gast,\n\n" +
           "Ihr Concierge " + nombre + " vom Guest Service Department meldet sich bei Ihnen. " +
-          "Wir hoffen, dass Sie Ihren Aufenthalt genie\u00dfen.\n\n" +
-          "Wir m\u00f6chten Sie herzlich zu unserer Show einladen: " + show + " in " + lugar + " um " + hora + ". " +
-          "Au\u00dferdem haben wir eine Vielzahl von Aktivit\u00e4ten in der Bar Kukulc\u00e1n geplant:\n\n" +
+          "Wir hoffen, dass Sie Ihren Aufenthalt genießen.\n\n" +
+          "Wir möchten Sie herzlich zu unserer Show einladen: " + show + " in " + lugar + " um " + hora + ". " +
+          "Außerdem haben wir eine Vielzahl von Aktivitäten in der Bar Kukulcán geplant:\n\n" +
           actividades + "\n\n" +
           "--------------------------------------------\n\n" +
-          "Hauptaktivit\u00e4t in " + lugarUp + " um " + hora + ":\n\n" +
+          "Hauptaktivität in " + lugarUp + " um " + hora + ":\n\n" +
           "\u2022 " + showUpper + "\n\n" +
-          "Es wird uns eine Freude sein, Sie bei diesen exklusiven Veranstaltungen begr\u00fc\u00dfen zu d\u00fcrfen.\n\n" +
-          "Mit freundlichen Gr\u00fc\u00dfen,\n" +
+          "Es wird uns eine Freude sein, Sie bei diesen exklusiven Veranstaltungen begrüßen zu dürfen.\n\n" +
+          "Mit freundlichen Grüßen,\n" +
           "Guest Service Department.";
       }
     };
@@ -738,7 +759,7 @@
       es: function(nombre, actividadesPrincipales, actividades) {
         return "Estimado huésped,\n\n" +
           "Reciba un cordial saludo de parte de " + nombre + " Concierge del Departamento de Guest Service.\n\n" +
-          "El motivo de nuestro mensaje es informar que debido a cambios climáticos, nuestro actividad Show de Fuego en la playa ha sido cancelado el día de hoy. Nos gustaría invitarle al teatro en donde preparamos para usted y su familia las siguientes actividades: \n\n" +
+          "El motivo de nuestro mensaje es informar que debido a cambios climáticos, nuestro actividad Show de Fuego en la playa ha sido cancelado el día de hoy. Nos gustaría invitarle al teatro donde tenemos preparadas las siguientes actividades:\n\n" +
           actividadesPrincipales + "\n\n" +
           "Además, a lo largo de la noche se celebrarán diversas actividades exclusivas en el bar Kukulkán.\n\n" +
           actividades + "\n\n" +
@@ -749,7 +770,7 @@
       en: function(nombre, actividadesPrincipales, actividades) {
         return "Dear Guest,\n\n" +
           "Please receive warm regards from " + nombre + ", Concierge of the Guest Service Department.\n\n" +
-          "We are writing to inform you that due to weather changes, our Fire Show on the beach has been cancelled today. We would like to invite you to the theater where we have prepared the following activities for you and your family:\n\n" +
+          "We are writing to inform you that due to weather changes, our Fire Show on the beach has been cancelled today. We would like to invite you to the theater where we have prepared the following activities:\n\n" +
           actividadesPrincipales + "\n\n" +
           "Throughout the evening, various exclusive activities will be held at the Kukulkán bar.\n\n" +
           actividades + "\n\n" +
@@ -760,7 +781,7 @@
       fr: function(nombre, actividadesPrincipales, actividades) {
         return "Cher Client,\n\n" +
           "Veuillez recevoir les cordiales salutations de " + nombre + ", Concierge du Département Guest Service.\n\n" +
-          "Nous vous informons que, en raison de changements climatiques, notre spectacle de Feu sur la plage a été annulé aujourd'hui. Nous souhaitons vous inviter au théâtre où nous avons préparé les activités suivantes pour vous et votre famille :\n\n" +
+          "Nous vous informons que, en raison de changements climatiques, notre spectacle de Feu sur la plage a été annulé aujourd'hui. Nous souhaitons vous inviter au théâtre où nous avons préparé les activités suivantes :\n\n" +
           actividadesPrincipales + "\n\n" +
           "Tout au long de la soirée, diverses activités exclusives se tiendront au bar Kukulkán.\n\n" +
           actividades + "\n\n" +
@@ -771,7 +792,7 @@
       de: function(nombre, actividadesPrincipales, actividades) {
         return "Lieber Gast,\n\n" +
           "Wir übermitteln Ihnen herzliche Grüße von " + nombre + ", Concierge der Guest Service Abteilung.\n\n" +
-          "Wir möchten Sie darüber informieren, dass aufgrund von Wetteränderungen unsere Feuershow am Strand heute abgesagt wurde. Wir möchten Sie gerne ins Theater einladen, wo wir folgende Aktivitäten für Sie und Ihre Familie vorbereitet haben:\n\n" +
+          "Wir möchten Sie darüber informieren, dass aufgrund von Wetteränderungen unsere Feuershow am Strand heute abgesagt wurde. Wir möchten Sie gerne ins Theater einladen, wo wir folgende Aktivitäten vorbereitet haben:\n\n" +
           actividadesPrincipales + "\n\n" +
           "Im Laufe des Abends finden verschiedene exklusive Aktivitäten in der Kukulkán Bar statt.\n\n" +
           actividades + "\n\n" +
@@ -802,7 +823,6 @@
       var actRaw      = document.getElementById('inputActividades').value.trim() || '[actividades]';
       var actPrinRaw  = document.getElementById('inputActividadesPrincipales').value.trim() || '[actividades principales]';
 
-      // Normalizar hora: asegurar que termina en PM
       var hora = horaRaw.replace(/\s*(AM|PM|am|pm)\s*$/i, '').trim();
       if (hora) hora = hora + ' PM';
       else hora = horaRaw;
@@ -810,8 +830,6 @@
       var lugar       = conLugarLocalizado(lugarRaw, currentLang);
       var lugarUp     = lugarUpperTraducido(lugarRaw, currentLang);
       var btn         = this;
-
-      // IMPORTANTE: No se limpia ningún campo ni selección al copiar.
 
       function copiarMensaje(showTraducido, actividadesTraducidas) {
         var actividades = agregarBullets(actividadesTraducidas);
@@ -857,7 +875,7 @@
           return;
         }
 
-        btn.textContent = 'Traduciendo...';
+        btn.textContent = '...';
         btn.disabled = true;
 
         var resultadosFuego = { principales: null, actividades: null };
@@ -874,7 +892,7 @@
           if (fuegoCopiado) return;
           fuegoCopiado = true;
           btn.disabled = false;
-          btn.textContent = 'COPIAR MENSAJE';
+          btn.textContent = 'COPIAR';
           copiarMensajeFuego(
             resultadosFuego.principales || actPrinRaw,
             resultadosFuego.actividades || actRaw
@@ -909,14 +927,12 @@
         return;
       }
 
-      // Español: no necesita traducción
       if (currentLang === 'es') {
         copiarMensaje(toTitleCase(showRaw), actRaw);
         return;
       }
 
-      // Otros idiomas: traducir show Y actividades en paralelo via servidor GS
-      btn.textContent = 'Traduciendo...';
+      btn.textContent = '...';
       btn.disabled = true;
 
       var TOTAL_OPERACIONES = 2;
@@ -931,7 +947,7 @@
         pendientes--;
         if (pendientes !== 0) return;
         btn.disabled = false;
-        btn.textContent = 'COPIAR MENSAJE';
+        btn.textContent = 'COPIAR';
         copiarMensaje(
           resultados.show        || toTitleCase(showRaw),
           resultados.actividades || actRaw
@@ -970,8 +986,8 @@
       btn.classList.add('copiado');
       setTimeout(function() {
         btn.classList.remove('copiado');
-        btn.textContent = 'COPIAR MENSAJE';
-        btn.style.transform = 'scale(1.06) translateY(-2px)';
+        btn.textContent = 'COPIAR';
+        btn.style.transform = 'scale(1.04) translateY(-2px)';
         setTimeout(function() { btn.style.transform = ''; }, 400);
       }, 900);
     }
