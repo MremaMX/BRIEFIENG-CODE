@@ -9,15 +9,43 @@
     :root {
       --maya-color: #184f5b;
       --lindo-color: #32a69a;
+      --selected-color: #0dc6d4;
+      --sb-track-color: #232E33;
+      --sb-thumb-color: #6BAF8D;
+      --sb-size: 8px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
       height: 100%;
       width: 100%;
       font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR CUSTOM ── */
+    body::-webkit-scrollbar {
+      width: var(--sb-size);
+    }
+    body::-webkit-scrollbar-track {
+      background: var(--sb-track-color);
+      border-radius: 3px;
+    }
+    body::-webkit-scrollbar-thumb {
+      background: var(--sb-thumb-color);
+      border-radius: 3px;
+    }
+    @supports not selector(::-webkit-scrollbar) {
+      body {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+      }
     }
 
     /* ── BACKGROUND SLIDER ── */
@@ -56,7 +84,6 @@
       align-items: flex-start;
       min-height: 100vh;
       padding: 20px 10px 30px;
-      overflow-y: auto;
     }
 
     /* ── CARD ── */
@@ -65,7 +92,7 @@
       border: 1px solid rgba(50, 166, 154, 0.25);
       border-radius: 16px;
       padding: 24px 22px 22px;
-      width: 480px;
+      width: 520px;
       max-width: 100%;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
     }
@@ -75,7 +102,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
 
     .card-title {
@@ -93,34 +120,90 @@
       display: flex;
       gap: 6px;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .btn-lang {
       padding: 6px 14px;
-      border: 1px solid rgba(50, 166, 154, 0.35);
-      border-radius: 6px;
-      background: rgba(24, 79, 91, 0.35);
+      border: 1.5px solid rgba(50, 166, 154, 0.4);
+      border-radius: 8px;
+      background: rgba(24, 79, 91, 0.4);
       color: #8fcfda;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 1.5px;
       cursor: pointer;
-      transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1), box-shadow 0.35s ease, background 0.25s ease;
+      transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1),
+                  box-shadow 0.35s ease,
+                  background 0.25s ease,
+                  border-color 0.25s ease,
+                  color 0.25s ease;
+      white-space: nowrap;
     }
 
     .btn-lang:hover {
-      background: rgba(50, 166, 154, 0.3);
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+      border-color: rgba(50, 166, 154, 0.8);
       color: #c9ecf4;
-      border-color: rgba(50, 166, 154, 0.7);
-      transform: scale(1.12) translateY(-4px);
-      box-shadow: 0 14px 30px rgba(0,0,0,0.18);
     }
 
     .btn-lang.active {
-      background: var(--maya-color);
+      background: var(--selected-color);
+      border-color: var(--selected-color);
       color: #ffffff;
-      border-color: var(--lindo-color);
+      box-shadow: 0 0 14px rgba(13, 198, 212, 0.5);
+    }
+
+    /* ── CONCIERGE SECTION ── */
+    .concierge-section {
+      margin-bottom: 14px;
+    }
+
+    .concierge-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #8fcfda;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .concierge-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .btn-concierge {
+      padding: 6px 12px;
+      border: 1.5px solid rgba(50, 166, 154, 0.4);
+      border-radius: 8px;
+      background: rgba(24, 79, 91, 0.4);
+      color: #c9ecf4;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1),
+                  box-shadow 0.35s ease,
+                  background 0.25s ease,
+                  border-color 0.25s ease,
+                  color 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-concierge:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+      border-color: rgba(50, 166, 154, 0.8);
+    }
+
+    .btn-concierge.selected {
+      background: var(--selected-color);
+      border-color: var(--selected-color);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(13, 198, 212, 0.5);
     }
 
     /* ── SORTABLE BOXES ── */
@@ -154,9 +237,9 @@
     }
 
     .box-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
       color: #111111;
       text-transform: uppercase;
       margin-bottom: 6px;
@@ -218,10 +301,17 @@
     }
 
     /* ── COPY BUTTON ── */
-    .btn-copy,
+    .btn-copy-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      padding-bottom: 10px;
+      min-height: 64px;
+    }
+
     .btn-copiar {
-      width: 100%;
-      padding: 14px;
+      display: inline-block;
+      padding: 14px 32px;
       background: #184f5b;
       color: #ffffff;
       border: none;
@@ -231,24 +321,57 @@
       font-weight: 700;
       letter-spacing: 2px;
       cursor: pointer;
-      transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1),
+                  background 0.3s ease,
+                  box-shadow 0.3s ease,
+                  padding 0.35s cubic-bezier(0.34, 1.8, 0.64, 1);
+      white-space: nowrap;
+      overflow: hidden;
     }
 
-    .btn-copy:hover,
     .btn-copiar:hover {
       transform: scale(1.04) translateY(-3px);
       box-shadow: 0 16px 36px rgba(0,0,0,0.2);
     }
 
-    .btn-copy:active,
     .btn-copiar:active {
       transform: scale(0.98);
     }
 
     .btn-copiar.copiado {
       background: #00BFFF;
-      transform: scale(1.08);
+      padding: 14px 20px;
+      transform: scale(1.08) translateY(-2px);
       box-shadow: 0 0 22px rgba(0, 191, 255, 0.8), 0 0 50px rgba(0, 191, 255, 0.5), 0 12px 24px rgba(0, 191, 255, 0.35);
+    }
+
+    .btn-modo-fuego {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      padding: 8px 12px;
+      background: rgba(24, 79, 91, 0.95);
+      color: #c9ecf4;
+      border: 1px solid rgba(50, 166, 154, 0.55);
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    .btn-modo-fuego:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      border-color: rgba(50, 166, 154, 0.8);
+    }
+
+    .btn-modo-fuego.activo {
+      background: #c0392b;
+      border-color: #c0392b;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(192, 57, 43, 0.55);
     }
   </style>
 </head>
@@ -258,7 +381,6 @@
   <div class="bg-slider" id="bgSlider">
     <div class="bg-slide active" style="background-image: url('https://lh3.googleusercontent.com/d/1yiLtxHlxCx_RoiZq3Dqo7cBQ8MJ04VhP')"></div>
     <div class="bg-slide" style="background-image: url('https://lh3.googleusercontent.com/d/1xMkC2A9KbPMXq7s2RGBxIalDqk6FnCpk')"></div>
-    <div class="bg-slide" style="background-image: url('https://lh3.googleusercontent.com/d/1GXSFwIlHcvNQwFp_XdZGk34XnEvKoty1')"></div>
     <div class="bg-slide" style="background-image: url('https://lh3.googleusercontent.com/d/1nHfPpQm9mM4OlzDkC7nLBoFDc6A7TaR2')"></div>
   </div>
   <div class="bg-overlay"></div>
@@ -274,10 +396,18 @@
 
       <!-- Language Selector -->
       <div class="lang-row">
-        <button class="btn-lang active" data-lang="es">Español</button>
+        <button class="btn-lang" data-lang="es">Español</button>
         <button class="btn-lang" data-lang="en">Inglés</button>
         <button class="btn-lang" data-lang="fr">Francés</button>
         <button class="btn-lang" data-lang="de">Alemán</button>
+      </div>
+
+      <!-- Concierge Buttons -->
+      <div class="concierge-section">
+        <div class="concierge-label">Selecciona tu nombre</div>
+        <div class="concierge-grid" id="conciergeGrid">
+          <!-- botones generados por JS -->
+        </div>
       </div>
 
       <!-- Sortable Input Boxes -->
@@ -291,12 +421,20 @@
           <input class="box-input" id="inputShow" type="text" placeholder="Ej: 80's Show" autocomplete="off" />
         </div>
 
+        <div class="input-box" data-key="lugar">
+          <div class="box-label">
+            <span class="drag-handle">⠿</span>
+            Lugar
+          </div>
+          <input class="box-input" id="inputLugar" type="text" placeholder="Ej: Teatro" autocomplete="off" />
+        </div>
+
         <div class="input-box" data-key="hora">
           <div class="box-label">
             <span class="drag-handle">⠿</span>
             Hora del Show
           </div>
-          <input class="box-input" id="inputHora" type="text" placeholder="Ej: 9:00 pm" autocomplete="off" />
+          <input class="box-input" id="inputHora" type="text" placeholder="Ej: 9:00 PM" autocomplete="off" />
         </div>
 
         <div class="input-box" data-key="actividades">
@@ -308,71 +446,534 @@
             placeholder="Pega aquí la lista de actividades…"></textarea>
         </div>
 
+        <div class="input-box" data-key="actividades-principales" id="boxActividadesPrincipales" style="display: none;">
+          <div class="box-label">
+            <span class="drag-handle">⠿</span>
+            ACTIVIDADES PRINCIPALES
+          </div>
+          <textarea class="box-textarea" id="inputActividadesPrincipales" rows="6"
+            placeholder="Pega aquí las actividades principales…"></textarea>
+        </div>
+
       </div>
 
       <!-- Copy Button -->
-      <button class="btn-copy btn-copiar" id="btnCopy">COPIAR MENSAJE</button>
+      <div class="btn-copy-wrap">
+        <button class="btn-copiar" id="btnCopy">COPIAR MENSAJE</button>
+        <button class="btn-modo-fuego" id="btnModoFuego">🔥 CANCELACIÓN</button>
+      </div>
 
     </div>
   </div>
 
   <script>
+    // ── REPRESENTANTES ──
+    var representantes = [
+      { nombre: 'Montserrat Rangel',      etiqueta: 'MONTSERRAT' },
+      { nombre: 'Delfino Hernández',       etiqueta: 'DELFINO' },
+      { nombre: 'Edgar Madrid',            etiqueta: 'EDGAR' },
+      { nombre: 'Clara de la Cruz',        etiqueta: 'CLARA' },
+      { nombre: 'Emanuel Hernández',       etiqueta: 'EMANUEL' },
+      { nombre: 'Rosario Arriaga',         etiqueta: 'ROSARIO' },
+      { nombre: 'Angélica Rivera',         etiqueta: 'ANGÉLICA' },
+      { nombre: 'Daniel Martinez',         etiqueta: 'DANIEL' },
+      { nombre: 'Gustavo Bolaina',         etiqueta: 'GUSTAVO' },
+      { nombre: 'Arturo Mixcoatl',         etiqueta: 'ARTURO' },
+      { nombre: 'Alberto',                 etiqueta: 'ALBERTO' },
+      { nombre: 'Gisela Zempoaltécatl',    etiqueta: 'GISELA Z.' },
+      { nombre: 'Ethan López',             etiqueta: 'ETHAN' },
+      { nombre: 'Omar Alonso',             etiqueta: 'OMAR' },
+      { nombre: 'Gisela Monserrat',        etiqueta: 'GISELA M.' },
+      { nombre: 'Javier Carballo',         etiqueta: 'JAVIER' },
+      { nombre: 'Raúl Torres',             etiqueta: 'RAÚL' },
+      { nombre: 'Arlette Montaño',         etiqueta: 'ARLETTE' },
+      { nombre: 'Cynthia Turijan',         etiqueta: 'CYNTHIA' }
+    ];
+
+    var nombreSeleccionado = '';
+    var modoFuego = false;
+
+    function cargarRepresentantes() {
+      try {
+        google.script.run
+          .withSuccessHandler(function(data) {
+            if (data && data.length > 0) representantes = data;
+            renderBotones();
+          })
+          .withFailureHandler(function() { renderBotones(); })
+          .getRepresentantes();
+      } catch(e) { renderBotones(); }
+    }
+
+    function renderBotones() {
+      var grid = document.getElementById('conciergeGrid');
+      grid.innerHTML = '';
+      representantes.forEach(function(rep) {
+        var btn = document.createElement('button');
+        btn.className = 'btn-concierge';
+        btn.textContent = rep.etiqueta;
+        btn.setAttribute('data-nombre', rep.nombre);
+        btn.addEventListener('click', function() { seleccionarConcierge(btn, rep.nombre); });
+        grid.appendChild(btn);
+      });
+    }
+
+    function seleccionarConcierge(btnClicked, nombre) {
+      document.querySelectorAll('.btn-concierge').forEach(function(b) {
+        if (b !== btnClicked && b.classList.contains('selected')) {
+          b.classList.remove('selected');
+          b.style.transform = 'scale(1.0)';
+          setTimeout(function() { b.style.transform = ''; }, 10);
+        }
+      });
+      if (btnClicked.classList.contains('selected')) {
+        btnClicked.classList.remove('selected');
+        nombreSeleccionado = '';
+      } else {
+        btnClicked.classList.add('selected');
+        nombreSeleccionado = nombre;
+        btnClicked.style.transform = 'scale(1.18) translateY(-5px)';
+        setTimeout(function() { btnClicked.style.transform = ''; }, 400);
+      }
+    }
+
+    cargarRepresentantes();
+
     // ── LANGUAGE ──
     var currentLang = 'es';
-
     document.querySelectorAll('.btn-lang').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        document.querySelectorAll('.btn-lang').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active');
-        currentLang = this.getAttribute('data-lang');
+        var prev = document.querySelector('.btn-lang.active');
+        if (prev && prev !== btn) {
+          prev.classList.remove('active');
+          prev.style.transform = 'scale(1.0)';
+          setTimeout(function() { prev.style.transform = ''; }, 10);
+        }
+        if (btn.classList.contains('active')) {
+          btn.classList.remove('active');
+          currentLang = 'es';
+        } else {
+          btn.classList.add('active');
+          currentLang = btn.getAttribute('data-lang');
+          btn.style.transform = 'scale(1.18) translateY(-5px)';
+          setTimeout(function() { btn.style.transform = ''; }, 400);
+        }
       });
     });
 
-    // ── MESSAGES ──
-    var templates = {
-      es: "Estimado Huésped,\n\nLe saluda su concierge del Departamento de Guest Service. Esperamos que esté disfrutando de su estancia.\n\nLe invitamos a nuestro show: {show} en el teatro a las {hora}. Además, tenemos una variedad de actividades programadas:\n\n{actividades}\n\nSerá un placer contar con su presencia en estos eventos exclusivos.\n\nAtentamente,\nDepartamento de Guest Service.",
-      en: "Dear Guest,\n\nThis is your concierge from the Guest Service Department. We hope you are having an enjoyable stay.\n\nWe would like to invite you to our show: {show} at the theater at {hora}. We also have a variety of activities scheduled:\n\n{actividades}\n\nWe would be delighted to have you join us for these exclusive events.\n\nBest regards,\nGuest Service Department.",
-      fr: "Cher Client,\n\nVotre concierge du Département Guest Service vous contacte. Nous espérons que vous profitez pleinement de votre séjour.\n\nNous vous invitons à notre show : {show} au théâtre à {hora}. Nous avons également une variété d'activités programmées :\n\n{actividades}\n\nNous serions ravis de vous accueillir lors de ces événements exclusifs.\n\nCordialement,\nDépartement Guest Service.",
-      de: "Lieber Gast,\n\nIhr Concierge vom Guest Service Department meldet sich bei Ihnen. Wir hoffen, dass Sie Ihren Aufenthalt genießen.\n\nWir möchten Sie herzlich zu unserem Show: {show} im Theater um {hora} einladen. Außerdem haben wir eine Vielzahl von Aktivitäten geplant:\n\n{actividades}\n\nWir würden uns freuen, Sie bei diesen exklusiven Veranstaltungen begrüßen zu dürfen.\n\nMit freundlichen Grüßen,\nGuest Service Department."
+    // ── PM AUTOMÁTICO EN HORA ──
+    // Al salir del campo hora, añade PM al final si no lo tiene ya
+    document.getElementById('inputHora').addEventListener('blur', function() {
+      var val = this.value.trim();
+      if (!val) return;
+      // Quitar am/pm/AM/PM existente para normalizar
+      var sinPM = val.replace(/\s*(AM|PM|am|pm)\s*$/i, '').trim();
+      if (sinPM) {
+        this.value = sinPM + ' PM';
+      }
+    });
+
+    // ── HELPERS ──
+    function toTitleCase(str) {
+      var minusculas = ['de','del','la','el','los','las','un','una','y','en','a','con','por','para'];
+      return str.toLowerCase().split(' ').map(function(word, index) {
+        if (index === 0 || minusculas.indexOf(word) === -1) {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+        return word;
+      }).join(' ');
+    }
+
+    // ── LUGAR LOCALIZADO CON ARTÍCULO SEGÚN IDIOMA ──
+    var lugaresDict = {
+      'teatro':      { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater'        },
+      'theater':     { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater'        },
+      'theatre':     { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater'        },
+      'playa':       { es: 'la Playa',       en: 'the Beach',      fr: 'la Plage',      de: 'dem Strand'         },
+      'beach':       { es: 'la Playa',       en: 'the Beach',      fr: 'la Plage',      de: 'dem Strand'         },
+      'alberca':     { es: 'la Alberca',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool'           },
+      'piscina':     { es: 'la Piscina',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool'           },
+      'pool':        { es: 'la Piscina',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool'           },
+      'lobby':       { es: 'el Lobby',       en: 'the Lobby',      fr: 'le Lobby',      de: 'der Lobby'          },
+      'bar':         { es: 'el Bar',         en: 'the Bar',        fr: 'le Bar',        de: 'der Bar'            },
+      'terraza':     { es: 'la Terraza',     en: 'the Terrace',    fr: 'la Terrasse',   de: 'der Terrasse'       },
+      'terrace':     { es: 'la Terraza',     en: 'the Terrace',    fr: 'la Terrasse',   de: 'der Terrasse'       },
+      'salon':       { es: 'el Salón',       en: 'the Hall',       fr: 'la Salle',      de: 'dem Saal'           },
+      'salón':       { es: 'el Salón',       en: 'the Hall',       fr: 'la Salle',      de: 'dem Saal'           },
+      'palapa':      { es: 'la Palapa',      en: 'the Palapa',     fr: 'la Palapa',     de: 'der Palapa'         },
+      'cenote':      { es: 'el Cenote',      en: 'the Cenote',     fr: 'le Cénote',     de: 'dem Cenote'         },
+      'jardin':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten'         },
+      'jardín':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten'         },
+      'garden':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten'         },
+      'escenario':   { es: 'el Escenario',   en: 'the Stage',      fr: 'la Scène',      de: 'der Bühne'          },
+      'stage':       { es: 'el Escenario',   en: 'the Stage',      fr: 'la Scène',      de: 'der Bühne'          },
+      'foro':        { es: 'el Foro',        en: 'the Forum',      fr: 'le Forum',      de: 'dem Forum'          },
+      'arena':       { es: 'la Arena',       en: 'the Arena',      fr: "l'Arène",       de: 'der Arena'          },
+      'laguna':      { es: 'la Laguna',      en: 'the Lagoon',     fr: 'la Lagune',     de: 'der Lagune'         },
+      'selva':       { es: 'la Selva',       en: 'the Jungle',     fr: 'la Jungle',     de: 'dem Dschungel'      },
+      'restaurante': { es: 'el Restaurante', en: 'the Restaurant', fr: 'le Restaurant', de: 'dem Restaurant'     },
+      'restaurant':  { es: 'el Restaurante', en: 'the Restaurant', fr: 'le Restaurant', de: 'dem Restaurant'     },
+      'mirador':     { es: 'el Mirador',     en: 'the Viewpoint',  fr: 'le Mirador',    de: 'dem Aussichtspunkt' },
+      'palacio':     { es: 'el Palacio',     en: 'the Palace',     fr: 'le Palais',     de: 'dem Palast'         },
+      'hacienda':    { es: 'la Hacienda',    en: 'the Hacienda',   fr: "l'Hacienda",    de: 'der Hacienda'       },
+      'cascada':     { es: 'la Cascada',     en: 'the Waterfall',  fr: 'la Cascade',    de: 'dem Wasserfall'     },
     };
+
+    function conLugarLocalizado(lugarRaw, lang) {
+      var l = lugarRaw.trim().toLowerCase();
+      for (var clave in lugaresDict) {
+        if (l.indexOf(clave) !== -1) {
+          return lugaresDict[clave][lang] || lugaresDict[clave]['es'];
+        }
+      }
+      // No reconocido: artículo genérico según idioma
+      var lugar = toTitleCase(lugarRaw.trim());
+      if (lang === 'en') return 'the ' + lugar;
+      if (lang === 'fr') return 'le ' + lugar;
+      if (lang === 'de') return 'dem ' + lugar;
+      return lugar;
+    }
+
+    function lugarUpperTraducido(lugarRaw, lang) {
+      var localizado = conLugarLocalizado(lugarRaw, lang);
+      // Quitar el artículo para la sección en mayúsculas
+      return localizado.replace(/^(el |la |the |le |l'|dem |der )/i, '').toUpperCase();
+    }
+
+    // ── BULLETS ──
+    function agregarBullets(texto) {
+      var limpio = texto.trim();
+      if (limpio.charAt(0) === '"') limpio = limpio.substring(1);
+      if (limpio.charAt(limpio.length - 1) === '"') limpio = limpio.substring(0, limpio.length - 1);
+      return limpio.split('\n').map(function(linea) {
+        var l = linea.trim();
+        if (!l) return '';
+        if (l.charAt(0) === '\u2022' || l.charAt(0) === '\u00b7' || l.charAt(0) === '-' || l.charAt(0) === '*') {
+          l = l.substring(1).trim();
+        }
+        return '\u2022 ' + l;
+      }).filter(function(l) { return l !== ''; }).join('\n');
+    }
+
+    // ── LIMPIAR COMILLAS AL PEGAR ──
+    function limpiarComillasAlPegar(e) {
+      e.preventDefault();
+      var pegado = (e.clipboardData || window.clipboardData).getData('text');
+      pegado = pegado.trim();
+      if (pegado.charAt(0) === '"') pegado = pegado.substring(1);
+      if (pegado.charAt(pegado.length - 1) === '"') pegado = pegado.substring(0, pegado.length - 1);
+      var ta = e.target;
+      var start = ta.selectionStart;
+      var end = ta.selectionEnd;
+      var current = ta.value;
+      ta.value = current.substring(0, start) + pegado + current.substring(end);
+      ta.selectionStart = ta.selectionEnd = start + pegado.length;
+    }
+
+    document.getElementById('inputActividades').addEventListener('paste', limpiarComillasAlPegar);
+    document.getElementById('inputActividadesPrincipales').addEventListener('paste', limpiarComillasAlPegar);
+
+    // ── TEMPLATES ──
+    // NOTA: en ES y EN el departamento es siempre "Guest Service" (sin 's' final en ES, sin 's' en EN)
+    var templates = {
+      es: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
+        return "Estimado Hu\u00e9sped,\n\n" +
+          "Le saluda su concierge " + nombre + " del Departamento de Guest Service. " +
+          "Esperamos que est\u00e9 disfrutando de su estancia.\n\n" +
+          "Le invitamos a nuestro show: " + show + " en " + lugar + " a las " + hora + ". " +
+          "Adem\u00e1s, tenemos una variedad de actividades programadas que tendr\u00e1n lugar en el Bar Kukulc\u00e1n:\n\n" +
+          actividades + "\n\n" +
+          "--------------------------------------------\n\n" +
+          "Actividad principal en " + lugarUp + " a las " + hora + ":\n\n" +
+          "\u2022 " + showUpper + "\n\n" +
+          "Ser\u00e1 un placer contar con su presencia en estos eventos exclusivos.\n\n" +
+          "Atentamente,\n" +
+          "Departamento de Guest Service.";
+      },
+      en: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
+        return "Dear Guest,\n\n" +
+          "This is your concierge " + nombre + " from the Guest Service Department. " +
+          "We hope you are enjoying your stay.\n\n" +
+          "We would like to invite you to our show: " + show + " at " + lugar + " at " + hora + ". " +
+          "Additionally, we have a variety of activities scheduled at Bar Kukulc\u00e1n:\n\n" +
+          actividades + "\n\n" +
+          "--------------------------------------------\n\n" +
+          "Main activity at " + lugarUp + " at " + hora + ":\n\n" +
+          "\u2022 " + showUpper + "\n\n" +
+          "It will be a pleasure to have you at these exclusive events.\n\n" +
+          "Sincerely,\n" +
+          "Guest Service Department.";
+      },
+      fr: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
+        return "Cher Client,\n\n" +
+          "Votre concierge " + nombre + " du D\u00e9partement Guest Service vous contacte. " +
+          "Nous esp\u00e9rons que vous profitez pleinement de votre s\u00e9jour.\n\n" +
+          "Nous vous invitons \u00e0 notre show : " + show + " \u00e0 " + lugar + " \u00e0 " + hora + ". " +
+          "De plus, nous avons une vari\u00e9t\u00e9 d'activit\u00e9s programm\u00e9es au Bar Kukulc\u00e1n :\n\n" +
+          actividades + "\n\n" +
+          "--------------------------------------------\n\n" +
+          "Activit\u00e9 principale \u00e0 " + lugarUp + " \u00e0 " + hora + " :\n\n" +
+          "\u2022 " + showUpper + "\n\n" +
+          "Ce sera un plaisir de vous accueillir lors de ces \u00e9v\u00e9nements exclusifs.\n\n" +
+          "Cordialement,\n" +
+          "D\u00e9partement Guest Service.";
+      },
+      de: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
+        return "Lieber Gast,\n\n" +
+          "Ihr Concierge " + nombre + " vom Guest Service Department meldet sich bei Ihnen. " +
+          "Wir hoffen, dass Sie Ihren Aufenthalt genie\u00dfen.\n\n" +
+          "Wir m\u00f6chten Sie herzlich zu unserer Show einladen: " + show + " in " + lugar + " um " + hora + ". " +
+          "Au\u00dferdem haben wir eine Vielzahl von Aktivit\u00e4ten in der Bar Kukulc\u00e1n geplant:\n\n" +
+          actividades + "\n\n" +
+          "--------------------------------------------\n\n" +
+          "Hauptaktivit\u00e4t in " + lugarUp + " um " + hora + ":\n\n" +
+          "\u2022 " + showUpper + "\n\n" +
+          "Es wird uns eine Freude sein, Sie bei diesen exklusiven Veranstaltungen begr\u00fc\u00dfen zu d\u00fcrfen.\n\n" +
+          "Mit freundlichen Gr\u00fc\u00dfen,\n" +
+          "Guest Service Department.";
+      }
+    };
+
+    var templatesFuego = {
+      es: function(nombre, actividadesPrincipales, actividades) {
+        return "Estimado huésped,\n\n" +
+          "Reciba un cordial saludo de parte de " + nombre + " Concierge del Departamento de Guest Service.\n\n" +
+          "El motivo de nuestro mensaje es informar que debido a cambios climáticos, nuestro actividad Show de Fuego en la playa ha sido cancelado el día de hoy. Nos gustaría invitarle al teatro en donde preparamos para usted y su familia las siguientes actividades: \n\n" +
+          actividadesPrincipales + "\n\n" +
+          "Además, a lo largo de la noche se celebrarán diversas actividades exclusivas en el bar Kukulkán.\n\n" +
+          actividades + "\n\n" +
+          "Estaremos encantados de que se una a nosotros y esperamos darle la bienvenida.\n\n" +
+          "Saludos\n" +
+          "Guest Service";
+      },
+      en: function(nombre, actividadesPrincipales, actividades) {
+        return "Dear Guest,\n\n" +
+          "Please receive warm regards from " + nombre + ", Concierge of the Guest Service Department.\n\n" +
+          "We are writing to inform you that due to weather changes, our Fire Show on the beach has been cancelled today. We would like to invite you to the theater where we have prepared the following activities for you and your family:\n\n" +
+          actividadesPrincipales + "\n\n" +
+          "Throughout the evening, various exclusive activities will be held at the Kukulkán bar.\n\n" +
+          actividades + "\n\n" +
+          "We would be delighted to have you join us and look forward to welcoming you.\n\n" +
+          "Best regards,\n" +
+          "Guest Service";
+      },
+      fr: function(nombre, actividadesPrincipales, actividades) {
+        return "Cher Client,\n\n" +
+          "Veuillez recevoir les cordiales salutations de " + nombre + ", Concierge du Département Guest Service.\n\n" +
+          "Nous vous informons que, en raison de changements climatiques, notre spectacle de Feu sur la plage a été annulé aujourd'hui. Nous souhaitons vous inviter au théâtre où nous avons préparé les activités suivantes pour vous et votre famille :\n\n" +
+          actividadesPrincipales + "\n\n" +
+          "Tout au long de la soirée, diverses activités exclusives se tiendront au bar Kukulkán.\n\n" +
+          actividades + "\n\n" +
+          "Nous serions ravis de vous accueillir parmi nous et espérons vous souhaiter la bienvenue.\n\n" +
+          "Cordialement,\n" +
+          "Guest Service";
+      },
+      de: function(nombre, actividadesPrincipales, actividades) {
+        return "Lieber Gast,\n\n" +
+          "Wir übermitteln Ihnen herzliche Grüße von " + nombre + ", Concierge der Guest Service Abteilung.\n\n" +
+          "Wir möchten Sie darüber informieren, dass aufgrund von Wetteränderungen unsere Feuershow am Strand heute abgesagt wurde. Wir möchten Sie gerne ins Theater einladen, wo wir folgende Aktivitäten für Sie und Ihre Familie vorbereitet haben:\n\n" +
+          actividadesPrincipales + "\n\n" +
+          "Im Laufe des Abends finden verschiedene exklusive Aktivitäten in der Kukulkán Bar statt.\n\n" +
+          actividades + "\n\n" +
+          "Wir würden uns sehr freuen, Sie bei uns begrüßen zu dürfen.\n\n" +
+          "Mit freundlichen Grüßen,\n" +
+          "Guest Service";
+      }
+    };
+
+    function aplicarModoFuego() {
+      var box = document.getElementById('boxActividadesPrincipales');
+      var btn = document.getElementById('btnModoFuego');
+      box.style.display = modoFuego ? 'block' : 'none';
+      btn.classList.toggle('activo', modoFuego);
+    }
+
+    document.getElementById('btnModoFuego').addEventListener('click', function() {
+      modoFuego = !modoFuego;
+      aplicarModoFuego();
+    });
 
     // ── COPY BUTTON ──
     document.getElementById('btnCopy').addEventListener('click', function() {
-      var show = document.getElementById('inputShow').value.trim() || '[nombre del show]';
-      var hora = document.getElementById('inputHora').value.trim() || '[hora]';
-      var actividades = document.getElementById('inputActividades').value.trim() || '[actividades]';
+      var nombre      = nombreSeleccionado || '[nombre del concierge]';
+      var showRaw     = document.getElementById('inputShow').value.trim()        || '[nombre del show]';
+      var lugarRaw    = document.getElementById('inputLugar').value.trim()       || '[lugar]';
+      var horaRaw     = document.getElementById('inputHora').value.trim()        || '[hora]';
+      var actRaw      = document.getElementById('inputActividades').value.trim() || '[actividades]';
+      var actPrinRaw  = document.getElementById('inputActividadesPrincipales').value.trim() || '[actividades principales]';
 
-      var msg = templates[currentLang]
-        .replace(/\{show\}/g, show)
-        .replace(/\{hora\}/g, hora)
-        .replace(/\{actividades\}/g, actividades);
+      // Normalizar hora: asegurar que termina en PM
+      var hora = horaRaw.replace(/\s*(AM|PM|am|pm)\s*$/i, '').trim();
+      if (hora) hora = hora + ' PM';
+      else hora = horaRaw;
 
-      var btn = this;
+      var lugar       = conLugarLocalizado(lugarRaw, currentLang);
+      var lugarUp     = lugarUpperTraducido(lugarRaw, currentLang);
+      var btn         = this;
 
-      navigator.clipboard.writeText(msg).then(function() {
-        showCopied(btn);
-      }).catch(function() {
-        // Fallback
-        var ta = document.createElement('textarea');
-        ta.value = msg;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        try { document.execCommand('copy'); } catch(e) {}
-        document.body.removeChild(ta);
-        showCopied(btn);
-      });
+      // IMPORTANTE: No se limpia ningún campo ni selección al copiar.
+
+      function copiarMensaje(showTraducido, actividadesTraducidas) {
+        var actividades = agregarBullets(actividadesTraducidas);
+        var showUp = showTraducido.toUpperCase();
+        var msg = templates[currentLang](nombre, showTraducido, lugar, hora, actividades, showUp, lugarUp);
+        navigator.clipboard.writeText(msg).then(function() {
+          mostrarCopiado(btn);
+        }).catch(function() {
+          var ta = document.createElement('textarea');
+          ta.value = msg;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus(); ta.select();
+          try { document.execCommand('copy'); } catch(e) {}
+          document.body.removeChild(ta);
+          mostrarCopiado(btn);
+        });
+      }
+
+      function copiarMensajeFuego(actividadesPrincipalesTraducidas, actividadesTraducidas) {
+        var actividadesPrincipales = agregarBullets(actividadesPrincipalesTraducidas);
+        var actividades = agregarBullets(actividadesTraducidas);
+        var msg = templatesFuego[currentLang](nombre, actividadesPrincipales, actividades);
+        navigator.clipboard.writeText(msg).then(function() {
+          mostrarCopiado(btn);
+        }).catch(function() {
+          var ta = document.createElement('textarea');
+          ta.value = msg;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus(); ta.select();
+          try { document.execCommand('copy'); } catch(e) {}
+          document.body.removeChild(ta);
+          mostrarCopiado(btn);
+        });
+      }
+
+      if (modoFuego) {
+        if (currentLang === 'es') {
+          copiarMensajeFuego(actPrinRaw, actRaw);
+          return;
+        }
+
+        btn.textContent = 'Traduciendo...';
+        btn.disabled = true;
+
+        var resultadosFuego = { principales: null, actividades: null };
+        var completadosFuego = { principales: false, actividades: false };
+        var pendientesFuego = 2;
+        var fuegoCopiado = false;
+
+        function marcarCompletoFuego(type, finalValue) {
+          if (completadosFuego[type]) return;
+          resultadosFuego[type] = finalValue;
+          completadosFuego[type] = true;
+          pendientesFuego--;
+          if (pendientesFuego !== 0) return;
+          if (fuegoCopiado) return;
+          fuegoCopiado = true;
+          btn.disabled = false;
+          btn.textContent = 'COPIAR MENSAJE';
+          copiarMensajeFuego(
+            resultadosFuego.principales || actPrinRaw,
+            resultadosFuego.actividades || actRaw
+          );
+        }
+
+        try {
+          google.script.run
+            .withSuccessHandler(function(actividadesPrincipalesTraducidas) {
+              marcarCompletoFuego('principales', actividadesPrincipalesTraducidas || actPrinRaw);
+            })
+            .withFailureHandler(function() {
+              marcarCompletoFuego('principales', actPrinRaw);
+            })
+            .traducirActividades(actPrinRaw, currentLang);
+        } catch(e) {
+          marcarCompletoFuego('principales', actPrinRaw);
+        }
+
+        try {
+          google.script.run
+            .withSuccessHandler(function(actividadesTraducidas) {
+              marcarCompletoFuego('actividades', actividadesTraducidas || actRaw);
+            })
+            .withFailureHandler(function() {
+              marcarCompletoFuego('actividades', actRaw);
+            })
+            .traducirActividades(actRaw, currentLang);
+        } catch(e) {
+          marcarCompletoFuego('actividades', actRaw);
+        }
+        return;
+      }
+
+      // Español: no necesita traducción
+      if (currentLang === 'es') {
+        copiarMensaje(toTitleCase(showRaw), actRaw);
+        return;
+      }
+
+      // Otros idiomas: traducir show Y actividades en paralelo via servidor GS
+      btn.textContent = 'Traduciendo...';
+      btn.disabled = true;
+
+      var TOTAL_OPERACIONES = 2;
+      var resultados = { show: null, actividades: null };
+      var completados = { show: false, actividades: false };
+      var pendientes = TOTAL_OPERACIONES;
+
+      function marcarCompleto(type, finalValue) {
+        if (completados[type]) return;
+        resultados[type] = finalValue;
+        completados[type] = true;
+        pendientes--;
+        if (pendientes !== 0) return;
+        btn.disabled = false;
+        btn.textContent = 'COPIAR MENSAJE';
+        copiarMensaje(
+          resultados.show        || toTitleCase(showRaw),
+          resultados.actividades || actRaw
+        );
+      }
+
+      try {
+        google.script.run
+          .withSuccessHandler(function(showTraducido) {
+            marcarCompleto('show', showTraducido || toTitleCase(showRaw));
+          })
+          .withFailureHandler(function() {
+            marcarCompleto('show', toTitleCase(showRaw));
+          })
+          .traducirShow(showRaw, currentLang);
+      } catch(e) {
+        marcarCompleto('show', toTitleCase(showRaw));
+      }
+
+      try {
+        google.script.run
+          .withSuccessHandler(function(actividadesTraducidas) {
+            marcarCompleto('actividades', actividadesTraducidas || actRaw);
+          })
+          .withFailureHandler(function() {
+            marcarCompleto('actividades', actRaw);
+          })
+          .traducirActividades(actRaw, currentLang);
+      } catch(e) {
+        marcarCompleto('actividades', actRaw);
+      }
     });
 
-    function showCopied(btn) {
-      btn.textContent = '¡COPIADO!';
+    function mostrarCopiado(btn) {
+      btn.textContent = '\u00a1COPIADO!';
       btn.classList.add('copiado');
       setTimeout(function() {
         btn.classList.remove('copiado');
         btn.textContent = 'COPIAR MENSAJE';
-      }, 1400);
+        btn.style.transform = 'scale(1.06) translateY(-2px)';
+        setTimeout(function() { btn.style.transform = ''; }, 400);
+      }, 900);
     }
 
     // ── SORTABLEJS ──
@@ -385,7 +986,6 @@
     // ── BACKGROUND SLIDER ──
     var slides = document.querySelectorAll('.bg-slide');
     var currentSlide = 0;
-
     setInterval(function() {
       slides[currentSlide].classList.remove('active');
       currentSlide = (currentSlide + 1) % slides.length;
