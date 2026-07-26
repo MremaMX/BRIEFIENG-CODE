@@ -349,19 +349,66 @@
       font-style: italic;
     }
 
+    @property --complete {
+      syntax: '<number>';
+      inherits: true;
+      initial-value: 0;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    #boxActividadesPrincipales.cancel-box {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-10px) scale(0.98);
+      transform-origin: top center;
+      padding: 0 14px;
+      border-width: 0;
+      margin-top: -4px;
+      pointer-events: none;
+      transition: max-height 0.45s ease,
+                  opacity 0.28s ease,
+                  transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  padding 0.32s ease,
+                  border-width 0.2s ease,
+                  margin 0.32s ease;
+    }
+
+    #boxActividadesPrincipales.cancel-box.show {
+      max-height: 320px;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      padding: 12px 14px;
+      border-width: 1.5px;
+      margin-top: 0;
+      pointer-events: auto;
+    }
+
     /* ── CANCELACIONES – liquid toggle ── */
     .cancel-row {
       display: flex;
       justify-content: center;
-      padding-top: 8px;
+      padding-top: 10px;
       padding-bottom: 4px;
     }
 
     .cancel-label {
-      display: flex;
+      --complete: 0;
+      display: inline-flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       cursor: pointer;
       user-select: none;
       background: transparent;
@@ -369,100 +416,217 @@
       padding: 0;
       font: inherit;
       color: inherit;
+      transition: --complete 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  transform 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cancel-label:focus-visible {
+      outline: 2px solid rgba(201, 236, 244, 0.95);
+      outline-offset: 7px;
+      border-radius: 18px;
+    }
+
+    .cancel-label:active {
+      transform: scale(0.985);
     }
 
     .cancel-label-text {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: lowercase;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       color: #ffffff;
+    }
+
+    .cancel-label[data-active='true'] {
+      --complete: 100;
     }
 
     .liquid-toggle {
       --unchecked: hsl(200, 15%, 45%);
-      --checked: #DB3414;
-      --border: 3px;
-      --width: 70;
-      --height: 34;
+      --toggle-checked: color-mix(in srgb, var(--unchecked) calc(100% - (var(--complete) * 1%)), #DB3414 calc(var(--complete) * 1%));
+      --border: 4px;
+      --width: 90;
+      --height: 38;
       position: relative;
       height: calc(var(--height) * 1px);
       width: calc(var(--width) * 1px);
       border-radius: 100px;
-      border: 0;
       padding: 0;
-      cursor: pointer;
-      background: var(--unchecked);
-      outline: none;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.35),
-                  inset 0 1px 2px rgba(0,0,0,0.25);
-      transition: background 0.4s ease-out;
-      -webkit-tap-highlight-color: transparent;
       overflow: visible;
+      container-type: inline-size;
+      background: transparent;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
     }
 
-    .liquid-toggle:focus-visible {
-      outline: 2px solid var(--checked);
-      outline-offset: 2px;
+    .liquid-toggle,
+    .liquid-toggle * {
+      pointer-events: none;
     }
 
-    .liquid-toggle__fill {
-      position: absolute;
-      inset: 0;
+    .indicator,
+    .indicator--masked {
       border-radius: 100px;
-      background: var(--checked);
-      transform: scaleX(0);
-      transform-origin: left center;
-      transition: transform 0.4s ease-out;
-    }
-
-    .liquid-toggle__blob {
-      position: absolute;
-      top: 50%;
-      left: var(--border);
-      width: calc((var(--height) * 1px) - (2 * var(--border)));
-      height: calc((var(--height) * 1px) - (2 * var(--border)));
-      border-radius: 50%;
-      background: white;
-      translate: 0 -50%;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.35),
-                  0 1px 3px rgba(0,0,0,0.25);
-      transition: left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-                  transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 2;
-    }
-
-    .cancel-label[data-active='true'] .liquid-toggle {
-      background: var(--checked);
-    }
-
-    .cancel-label[data-active='true'] .liquid-toggle__fill {
-      transform: scaleX(1);
-    }
-
-    .cancel-label[data-active='true'] .liquid-toggle__blob {
-      left: calc(100% - (var(--height) * 1px) + var(--border));
-      transform: scale(1.08);
-    }
-
-    .cancel-label[data-active='true'] .liquid-toggle__blob::before {
-      content: '';
+      height: 100%;
+      width: 100%;
+      background: var(--toggle-checked);
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: var(--checked);
-      opacity: 0.3;
       translate: -50% -50%;
-      filter: blur(4px);
-      transform: scale(1.4);
-      z-index: -1;
+      transition: background 0.2s ease-out;
     }
 
-    .cancel-label:active .liquid-toggle__blob {
-      transform: scale(0.92) !important;
+    .knockout {
+      position: absolute;
+      inset: 0;
+      height: calc(var(--height) * 1px);
+      width: calc(var(--width) * 1px);
+      border-radius: 100px;
+      filter: url(#remove-black);
+      transform: translate3d(0, 0, 0);
+      will-change: filter;
+    }
+
+    .indicator--masked {
+      z-index: 12;
+      container-type: inline-size;
+    }
+
+    .indicator--masked .mask {
+      position: absolute;
+      top: 50%;
+      left: var(--border);
+      height: calc(100% - (2 * var(--border)));
+      width: calc(60% - (2 * var(--border)));
+      margin-left: 0;
+      background: #000;
+      border-radius: 100px;
+      translate: calc((var(--complete) / 100) * (100cqi - 60cqi)) -50%;
+      transition: translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  height 0.2s ease-out,
+                  width 0.2s ease-out,
+                  margin 0.2s ease-out,
+                  scale 0.2s ease-out;
+      will-change: translate, height, width, margin;
+    }
+
+    .wrapper {
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      clip-path: inset(0 0 0 0 round 100px);
+      filter: blur(6px);
+      transition: filter 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .liquids {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 100px;
+      filter: url(#goo);
+      transform: translate3d(0, 0, 0);
+    }
+
+    .liquid__shadow {
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      box-shadow: inset 0 0 3px 4px var(--toggle-checked),
+                  inset calc(((var(--complete) / 100) * 8px) - 4px) 0 3px 4px var(--toggle-checked);
+      transition: box-shadow 0.2s ease-out;
+    }
+
+    .liquid__track {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: calc((var(--height) * 1px) - (0 * var(--border)));
+      width: calc((var(--width) * 1px) - (0 * var(--border)));
+      background: var(--toggle-checked);
+      border-radius: 100px;
+      translate: calc((var(--complete) / 100) * (100cqi - 100% - (6 * var(--border)))) -50%;
+      transition: translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  background 0.2s ease-out;
+    }
+
+    .indicator__liquid {
+      position: absolute;
+      top: 50%;
+      left: var(--border);
+      height: calc(100% - (2 * var(--border)));
+      width: calc(60% - (2 * var(--border)));
+      container-type: inline-size;
+      border-radius: 100px;
+      background: transparent;
+      translate: calc((var(--complete) / 100) * (100cqi - 100% - (2 * var(--border)))) -50%;
+      transition: translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  scale 0.2s ease-out;
+    }
+
+    .indicator__liquid .shadow,
+    .indicator__liquid .cover {
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      transition: opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .indicator__liquid .shadow {
+      opacity: 0;
+      box-shadow: 1px -1px 2px hsl(0 0% 100% / 0.5) inset,
+                  0 -1px 2px hsl(0 0% 100% / 0.5) inset,
+                  -1px -1px 2px hsl(0 0% 100% / 0.5) inset,
+                  1px 1px 2px hsl(0 0% 30% / 0.5) inset,
+                  -8px 4px 10px -6px hsl(0 0% 30% / 0.25) inset,
+                  -1px 1px 6px hsl(0 0% 30% / 0.25) inset,
+                  -1px -1px 8px hsl(0 0% 60% / 0.15),
+                  1px 1px 2px hsl(0 0% 30% / 0.15),
+                  2px 2px 6px hsl(0 0% 30% / 0.15),
+                  -2px -1px 2px hsl(0 0% 100% / 0.25) inset,
+                  3px 6px 16px -6px hsl(0 0% 30% / 0.5);
+      z-index: 2;
+    }
+
+    .indicator__liquid .cover {
+      background: #ffffff;
+    }
+
+    .cancel-label[data-active='true'] .indicator--masked .mask,
+    .cancel-label:active .indicator--masked .mask {
+      height: calc((100% - (2 * var(--border))) * 1.45);
+      width: calc((60% - (2 * var(--border))) * 1.45);
+      margin-left: calc((60% - (2 * var(--border))) * -0.225);
+    }
+
+    .cancel-label[data-active='true'] .indicator__liquid,
+    .cancel-label:active .indicator__liquid {
+      scale: 1.38 1.18;
+    }
+
+    .cancel-label[data-active='true'] .wrapper,
+    .cancel-label:active .wrapper {
+      filter: blur(0);
+    }
+
+    .cancel-label[data-active='true'] .indicator__liquid .shadow,
+    .cancel-label:active .indicator__liquid .shadow {
+      opacity: 1;
+    }
+
+    .cancel-label[data-active='true'] .indicator__liquid .cover,
+    .cancel-label:active .indicator__liquid .cover {
+      opacity: 0;
+    }
+
+    .cancel-label[data-active='true'] .indicator__liquid .liquid__track,
+    .cancel-label:active .indicator__liquid .liquid__track {
+      left: calc(var(--border) * 3);
+      height: calc((var(--height) * 1px) - (6 * var(--border)));
     }
   </style>
 </head>
@@ -534,16 +698,16 @@
         <div class="input-box" data-key="actividades">
           <div class="box-label">
             <span class="drag-handle">⠿</span>
-            Actividades
+            ACTIVIDADES KUKULKAN
           </div>
           <textarea class="box-textarea" id="inputActividades" rows="6"
             placeholder="Pega aquí la lista de actividades…"></textarea>
         </div>
 
-        <div class="input-box" data-key="actividades-principales" id="boxActividadesPrincipales" style="display: none;">
+        <div class="input-box cancel-box" data-key="actividades-principales" id="boxActividadesPrincipales" aria-hidden="true">
           <div class="box-label">
             <span class="drag-handle">⠿</span>
-            ACTIVIDADES PRINCIPALES
+            ACTIVIDADES EN EL TEATRO O PLAYA
           </div>
           <textarea class="box-textarea" id="inputActividadesPrincipales" rows="6"
             placeholder="Pega aquí las actividades principales…"></textarea>
@@ -553,11 +717,22 @@
 
       <!-- Cancelaciones -->
       <div class="cancel-row">
-        <button class="cancel-label" id="btnModoFuego" aria-pressed="false" data-active="false">
-          <span class="cancel-label-text">cancelaciones</span>
-          <span class="liquid-toggle" role="presentation">
-            <span class="liquid-toggle__fill"></span>
-            <span class="liquid-toggle__blob"></span>
+        <button class="cancel-label" id="btnModoFuego" type="button" aria-pressed="false" data-active="false">
+          <span class="cancel-label-text">CANCELACIONES</span>
+          <span class="liquid-toggle" role="presentation" aria-hidden="true">
+            <span class="knockout">
+              <span class="indicator indicator--masked"><span class="mask"></span></span>
+            </span>
+            <span class="indicator__liquid">
+              <span class="shadow"></span>
+              <span class="wrapper">
+                <span class="liquids">
+                  <span class="liquid__shadow"></span>
+                  <span class="liquid__track"></span>
+                </span>
+              </span>
+              <span class="cover"></span>
+            </span>
           </span>
         </button>
       </div>
@@ -878,15 +1053,20 @@
     function aplicarModoFuego() {
       var box = document.getElementById('boxActividadesPrincipales');
       var btn = document.getElementById('btnModoFuego');
-      box.style.display = modoFuego ? 'block' : 'none';
-      btn.setAttribute('data-active', modoFuego ? 'true' : 'false');
-      btn.setAttribute('aria-pressed', modoFuego ? 'true' : 'false');
+      var activeState = modoFuego ? 'true' : 'false';
+      box.classList.toggle('show', modoFuego);
+      box.setAttribute('aria-hidden', modoFuego ? 'false' : 'true');
+      btn.setAttribute('data-active', activeState);
+      btn.setAttribute('aria-pressed', activeState);
+      btn.style.setProperty('--complete', modoFuego ? '100' : '0');
     }
 
     document.getElementById('btnModoFuego').addEventListener('click', function() {
       modoFuego = !modoFuego;
       aplicarModoFuego();
     });
+
+    aplicarModoFuego();
 
     // ── COPY BUTTON ──
     document.getElementById('btnCopy').addEventListener('click', function() {
@@ -1082,5 +1262,20 @@
       slides[currentSlide].classList.add('active');
     }, 5000);
   </script>
+
+  <svg class="sr-only" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="13"></feGaussianBlur>
+        <feColorMatrix result="goo" in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 13 -10" type="matrix"></feColorMatrix>
+        <feComposite in="goo" operator="atop"></feComposite>
+      </filter>
+      <filter id="remove-black" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -255 -255 -255 0 1" result="black-pixels"></feColorMatrix>
+        <feMorphology in="black-pixels" operator="dilate" radius="0.5" result="smoothed"></feMorphology>
+        <feComposite in="SourceGraphic" in2="smoothed" operator="out"></feComposite>
+      </filter>
+    </defs>
+  </svg>
 </body>
 </html>
