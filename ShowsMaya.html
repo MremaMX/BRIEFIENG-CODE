@@ -107,11 +107,11 @@
 
     .card-title {
       font-family: 'Century Gothic', 'Trebuchet MS', sans-serif;
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: 5px;
       text-transform: uppercase;
-      color: #c9ecf4;
+      color: #ffffff;
       text-align: center;
     }
 
@@ -126,18 +126,18 @@
 
     .lang-row {
       display: flex;
-      gap: 6px;
+      gap: 4px;
       justify-content: flex-start;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     .btn-lang {
-      padding: 6px 14px;
+      padding: 5px 10px;
       border: 1.5px solid rgba(50, 166, 154, 0.4);
       border-radius: 8px;
       background: rgba(24, 79, 91, 0.4);
       color: #8fcfda;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       letter-spacing: 1.5px;
       cursor: pointer;
@@ -213,7 +213,7 @@
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 2px;
-      color: #8fcfda;
+      color: #ffffff;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
@@ -656,6 +656,7 @@
           <button class="btn-lang" data-lang="en">Inglés</button>
           <button class="btn-lang" data-lang="fr">Francés</button>
           <button class="btn-lang" data-lang="de">Alemán</button>
+          <button class="btn-lang" data-lang="pt">Portugués</button>
         </div>
         <button class="btn-copiar" id="btnCopy">COPIAR</button>
       </div>
@@ -813,6 +814,20 @@
 
     cargarRepresentantes();
 
+    // ── AUTO-LLENADO POR DÍA DE LA SEMANA ──
+    try {
+      google.script.run
+        .withSuccessHandler(function(datos) {
+          if (!datos) return;
+          if (datos.show)        document.getElementById('inputShow').value        = datos.show;
+          if (datos.lugar)       document.getElementById('inputLugar').value       = datos.lugar;
+          if (datos.hora)        document.getElementById('inputHora').value        = datos.hora;
+          if (datos.actividades) document.getElementById('inputActividades').value = datos.actividades;
+        })
+        .withFailureHandler(function() {})
+        .getDatosDiaActualShowsMaya();
+    } catch(e) {}
+
     // ── LANGUAGE ──
     var currentLang = 'es';
     document.querySelectorAll('.btn-lang').forEach(function(btn) {
@@ -858,37 +873,37 @@
 
     // ── LUGAR LOCALIZADO CON ARTÍCULO SEGÚN IDIOMA ──
     var lugaresDict = {
-      'teatro':      { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater'        },
-      'theater':     { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater'        },
-      'theatre':     { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater'        },
-      'playa':       { es: 'la Playa',       en: 'the Beach',      fr: 'la Plage',      de: 'dem Strand'         },
-      'beach':       { es: 'la Playa',       en: 'the Beach',      fr: 'la Plage',      de: 'dem Strand'         },
-      'alberca':     { es: 'la Alberca',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool'           },
-      'piscina':     { es: 'la Piscina',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool'           },
-      'pool':        { es: 'la Piscina',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool'           },
-      'lobby':       { es: 'el Lobby',       en: 'the Lobby',      fr: 'le Lobby',      de: 'der Lobby'          },
-      'bar':         { es: 'el Bar',         en: 'the Bar',        fr: 'le Bar',        de: 'der Bar'            },
-      'terraza':     { es: 'la Terraza',     en: 'the Terrace',    fr: 'la Terrasse',   de: 'der Terrasse'       },
-      'terrace':     { es: 'la Terraza',     en: 'the Terrace',    fr: 'la Terrasse',   de: 'der Terrasse'       },
-      'salon':       { es: 'el Salón',       en: 'the Hall',       fr: 'la Salle',      de: 'dem Saal'           },
-      'salón':       { es: 'el Salón',       en: 'the Hall',       fr: 'la Salle',      de: 'dem Saal'           },
-      'palapa':      { es: 'la Palapa',      en: 'the Palapa',     fr: 'la Palapa',     de: 'der Palapa'         },
-      'cenote':      { es: 'el Cenote',      en: 'the Cenote',     fr: 'le Cénote',     de: 'dem Cenote'         },
-      'jardin':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten'         },
-      'jardín':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten'         },
-      'garden':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten'         },
-      'escenario':   { es: 'el Escenario',   en: 'the Stage',      fr: 'la Scène',      de: 'der Bühne'          },
-      'stage':       { es: 'el Escenario',   en: 'the Stage',      fr: 'la Scène',      de: 'der Bühne'          },
-      'foro':        { es: 'el Foro',        en: 'the Forum',      fr: 'le Forum',      de: 'dem Forum'          },
-      'arena':       { es: 'la Arena',       en: 'the Arena',      fr: "l'Arène",       de: 'der Arena'          },
-      'laguna':      { es: 'la Laguna',      en: 'the Lagoon',     fr: 'la Lagune',     de: 'der Lagune'         },
-      'selva':       { es: 'la Selva',       en: 'the Jungle',     fr: 'la Jungle',     de: 'dem Dschungel'      },
-      'restaurante': { es: 'el Restaurante', en: 'the Restaurant', fr: 'le Restaurant', de: 'dem Restaurant'     },
-      'restaurant':  { es: 'el Restaurante', en: 'the Restaurant', fr: 'le Restaurant', de: 'dem Restaurant'     },
-      'mirador':     { es: 'el Mirador',     en: 'the Viewpoint',  fr: 'le Mirador',    de: 'dem Aussichtspunkt' },
-      'palacio':     { es: 'el Palacio',     en: 'the Palace',     fr: 'le Palais',     de: 'dem Palast'         },
-      'hacienda':    { es: 'la Hacienda',    en: 'the Hacienda',   fr: "l'Hacienda",    de: 'der Hacienda'       },
-      'cascada':     { es: 'la Cascada',     en: 'the Waterfall',  fr: 'la Cascade',    de: 'dem Wasserfall'     }
+      'teatro':      { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater',         pt: 'o Teatro'          },
+      'theater':     { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater',         pt: 'o Teatro'          },
+      'theatre':     { es: 'el Teatro',      en: 'the Theater',    fr: 'le Théâtre',    de: 'dem Theater',         pt: 'o Teatro'          },
+      'playa':       { es: 'la Playa',       en: 'the Beach',      fr: 'la Plage',      de: 'dem Strand',          pt: 'a Praia'           },
+      'beach':       { es: 'la Playa',       en: 'the Beach',      fr: 'la Plage',      de: 'dem Strand',          pt: 'a Praia'           },
+      'alberca':     { es: 'la Alberca',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool',            pt: 'a Piscina'         },
+      'piscina':     { es: 'la Piscina',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool',            pt: 'a Piscina'         },
+      'pool':        { es: 'la Piscina',     en: 'the Pool',       fr: 'la Piscine',    de: 'dem Pool',            pt: 'a Piscina'         },
+      'lobby':       { es: 'el Lobby',       en: 'the Lobby',      fr: 'le Lobby',      de: 'der Lobby',           pt: 'o Lobby'           },
+      'bar':         { es: 'el Bar',         en: 'the Bar',        fr: 'le Bar',        de: 'der Bar',             pt: 'o Bar'             },
+      'terraza':     { es: 'la Terraza',     en: 'the Terrace',    fr: 'la Terrasse',   de: 'der Terrasse',        pt: 'o Terraço'         },
+      'terrace':     { es: 'la Terraza',     en: 'the Terrace',    fr: 'la Terrasse',   de: 'der Terrasse',        pt: 'o Terraço'         },
+      'salon':       { es: 'el Salón',       en: 'the Hall',       fr: 'la Salle',      de: 'dem Saal',            pt: 'o Salão'           },
+      'salón':       { es: 'el Salón',       en: 'the Hall',       fr: 'la Salle',      de: 'dem Saal',            pt: 'o Salão'           },
+      'palapa':      { es: 'la Palapa',      en: 'the Palapa',     fr: 'la Palapa',     de: 'der Palapa',          pt: 'a Palapa'          },
+      'cenote':      { es: 'el Cenote',      en: 'the Cenote',     fr: 'le Cénote',     de: 'dem Cenote',          pt: 'o Cenote'          },
+      'jardin':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten',          pt: 'o Jardim'          },
+      'jardín':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten',          pt: 'o Jardim'          },
+      'garden':      { es: 'el Jardín',      en: 'the Garden',     fr: 'le Jardin',     de: 'dem Garten',          pt: 'o Jardim'          },
+      'escenario':   { es: 'el Escenario',   en: 'the Stage',      fr: 'la Scène',      de: 'der Bühne',           pt: 'o Palco'           },
+      'stage':       { es: 'el Escenario',   en: 'the Stage',      fr: 'la Scène',      de: 'der Bühne',           pt: 'o Palco'           },
+      'foro':        { es: 'el Foro',        en: 'the Forum',      fr: 'le Forum',      de: 'dem Forum',           pt: 'o Fórum'           },
+      'arena':       { es: 'la Arena',       en: 'the Arena',      fr: "l'Arène",       de: 'der Arena',           pt: 'a Arena'           },
+      'laguna':      { es: 'la Laguna',      en: 'the Lagoon',     fr: 'la Lagune',     de: 'der Lagune',          pt: 'a Lagoa'           },
+      'selva':       { es: 'la Selva',       en: 'the Jungle',     fr: 'la Jungle',     de: 'dem Dschungel',       pt: 'a Selva'           },
+      'restaurante': { es: 'el Restaurante', en: 'the Restaurant', fr: 'le Restaurant', de: 'dem Restaurant',      pt: 'o Restaurante'     },
+      'restaurant':  { es: 'el Restaurante', en: 'the Restaurant', fr: 'le Restaurant', de: 'dem Restaurant',      pt: 'o Restaurante'     },
+      'mirador':     { es: 'el Mirador',     en: 'the Viewpoint',  fr: 'le Mirador',    de: 'dem Aussichtspunkt',  pt: 'o Mirante'         },
+      'palacio':     { es: 'el Palacio',     en: 'the Palace',     fr: 'le Palais',     de: 'dem Palast',          pt: 'o Palácio'         },
+      'hacienda':    { es: 'la Hacienda',    en: 'the Hacienda',   fr: "l'Hacienda",    de: 'der Hacienda',        pt: 'a Hacienda'        },
+      'cascada':     { es: 'la Cascada',     en: 'the Waterfall',  fr: 'la Cascade',    de: 'dem Wasserfall',      pt: 'a Cachoeira'       }
     };
 
     function conLugarLocalizado(lugarRaw, lang) {
@@ -902,6 +917,7 @@
       if (lang === 'en') return 'the ' + lugar;
       if (lang === 'fr') return 'le ' + lugar;
       if (lang === 'de') return 'dem ' + lugar;
+      if (lang === 'pt') return 'o ' + lugar;
       return lugar;
     }
 
@@ -923,6 +939,30 @@
         }
         return '\u2022 ' + l;
       }).filter(function(l) { return l !== ''; }).join('\n');
+    }
+
+    function agregarBulletsCancelaciones(texto) {
+      var limpio = texto.trim();
+      if (limpio.charAt(0) === '"') limpio = limpio.substring(1);
+      if (limpio.charAt(limpio.length - 1) === '"') limpio = limpio.substring(0, limpio.length - 1);
+      var lineas = limpio.split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l !== ''; });
+      var resultado = [];
+      var i = 0;
+      var reHorario = /^\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}/;
+      while (i < lineas.length) {
+        var linea = lineas[i];
+        if (linea.charAt(0) === '\u2022' || linea.charAt(0) === '\u00b7' || linea.charAt(0) === '-' || linea.charAt(0) === '*') {
+          linea = linea.substring(1).trim();
+        }
+        if (i + 1 < lineas.length && reHorario.test(lineas[i + 1])) {
+          resultado.push('\u2022 ' + linea + ': ' + lineas[i + 1].trim());
+          i += 2;
+        } else {
+          resultado.push('\u2022 ' + linea);
+          i += 1;
+        }
+      }
+      return resultado.join('\n');
     }
 
     // ── LIMPIAR COMILLAS AL PEGAR ──
@@ -1000,6 +1040,20 @@
           "Es wird uns eine Freude sein, Sie bei diesen exklusiven Veranstaltungen begrüßen zu dürfen.\n\n" +
           "Mit freundlichen Grüßen,\n" +
           "Guest Service Department.";
+      },
+      pt: function(nombre, show, lugar, hora, actividades, showUpper, lugarUp) {
+        return "Prezado Hóspede,\n\n" +
+          "Este é seu concierge " + nombre + " do Departamento de Guest Service. " +
+          "Esperamos que esteja aproveitando sua estadia.\n\n" +
+          "Gostaríamos de convidá-lo para nosso show: " + show + " em " + lugar + " às " + hora + ". " +
+          "Além disso, temos uma variedade de atividades programadas no Bar Kukulcán:\n\n" +
+          actividades + "\n\n" +
+          "--------------------------------------------\n\n" +
+          "Atividade principal em " + lugarUp + " às " + hora + ":\n\n" +
+          "\u2022 " + showUpper + "\n\n" +
+          "Será um prazer tê-lo nesses eventos exclusivos.\n\n" +
+          "Atenciosamente,\n" +
+          "Departamento de Guest Service.";
       }
     };
 
@@ -1046,6 +1100,17 @@
           actividades + "\n\n" +
           "Wir würden uns sehr freuen, Sie bei uns begrüßen zu dürfen.\n\n" +
           "Mit freundlichen Grüßen,\n" +
+          "Guest Service";
+      },
+      pt: function(nombre, actividadesPrincipales, actividades) {
+        return "Prezado Hóspede,\n\n" +
+          "Receba um cordial cumprimento de " + nombre + ", Concierge do Departamento de Guest Service.\n\n" +
+          "Informamos que devido a mudanças climáticas, nosso Show de Fogo na praia foi cancelado hoje. Gostaríamos de convidá-lo ao teatro onde temos preparadas as seguintes atividades:\n\n" +
+          actividadesPrincipales + "\n\n" +
+          "Ao longo da noite, serão realizadas diversas atividades exclusivas no bar Kukulkán.\n\n" +
+          actividades + "\n\n" +
+          "Ficaremos felizes em tê-lo conosco e esperamos recebê-lo.\n\n" +
+          "Atenciosamente,\n" +
           "Guest Service";
       }
     };
@@ -1105,7 +1170,7 @@
       }
 
       function copiarMensajeFuego(actividadesPrincipalesTraducidas, actividadesTraducidas) {
-        var actividadesPrincipales = agregarBullets(actividadesPrincipalesTraducidas);
+        var actividadesPrincipales = agregarBulletsCancelaciones(actividadesPrincipalesTraducidas);
         var actividades = agregarBullets(actividadesTraducidas);
         var msg = templatesFuego[currentLang](nombre, actividadesPrincipales, actividades);
         navigator.clipboard.writeText(msg).then(function() {

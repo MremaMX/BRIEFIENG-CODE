@@ -3310,3 +3310,38 @@ function traducirShow(texto, targetLang) {
     return texto;
   }
 }
+
+/**
+ * getDatosDiaActualShowsMaya()
+ * Detecta el día actual del servidor y retorna las celdas correspondientes
+ * de la hoja "SPAM SHOWS PARAISO MAYA".
+ * Retorna: { show, lugar, hora, actividades }
+ */
+function getDatosDiaActualShowsMaya() {
+  try {
+    var hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('SPAM SHOWS PARAISO MAYA');
+    if (!hoja) return { show: '', lugar: '', hora: '', actividades: '' };
+
+    // getDay(): 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb
+    var dia = new Date().getDay();
+    var filas = {
+      0: [42, 43, 44, 46], // Domingo
+      1: [6,  7,  8,  10], // Lunes
+      2: [12, 13, 14, 16], // Martes
+      3: [18, 19, 20, 22], // Miércoles
+      4: [24, 25, 26, 28], // Jueves
+      5: [30, 31, 32, 34], // Viernes
+      6: [36, 37, 38, 40]  // Sábado
+    };
+    var f = filas[dia];
+    return {
+      show:        hoja.getRange('C' + f[0]).getValue() || '',
+      lugar:       hoja.getRange('C' + f[1]).getValue() || '',
+      hora:        hoja.getRange('C' + f[2]).getValue() || '',
+      actividades: hoja.getRange('C' + f[3]).getValue() || ''
+    };
+  } catch(e) {
+    Logger.log('getDatosDiaActualShowsMaya error: ' + e);
+    return { show: '', lugar: '', hora: '', actividades: '' };
+  }
+}
