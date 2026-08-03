@@ -1124,11 +1124,6 @@
       }
 
       if (modoFuego) {
-        if (currentLang === 'es') {
-          copiarMensajeFuego(actPrinRaw, actRaw);
-          return;
-        }
-
         btn.textContent = '...';
         btn.disabled = true;
 
@@ -1178,11 +1173,6 @@
         } catch(e) {
           marcarCompletoFuego('actividades', actRaw);
         }
-        return;
-      }
-
-      if (currentLang === 'es') {
-        copiarMensaje(toTitleCase(showRaw), actRaw);
         return;
       }
 

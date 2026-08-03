@@ -3295,3 +3295,18 @@ function traducirTexto(texto, targetLang) {
     return texto;
   }
 }
+
+/**
+ * traducirShow(texto, targetLang)
+ * Traduce el nombre del Show del español al idioma destino.
+ * Llamada desde ShowsMaya.html al presionar COPIAR.
+ */
+function traducirShow(texto, targetLang) {
+  try {
+    if (!texto || targetLang === 'es') return texto;
+    return LanguageApp.translate(texto, 'es', targetLang);
+  } catch(e) {
+    Logger.log('traducirShow error: ' + e);
+    return texto;
+  }
+}
