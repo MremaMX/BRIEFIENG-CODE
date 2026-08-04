@@ -3314,13 +3314,20 @@ function traducirShow(texto, targetLang) {
 /**
  * getDatosDiaActualShowsMaya()
  * Detecta el día actual del servidor y retorna las celdas correspondientes
- * de la hoja "SPAM SHOWS PARAISO MAYA".
+ * del spreadsheet externo de Shows Maya (ID fijo, GID fijo).
  * Retorna: { show, lugar, hora, actividades }
  */
 function getDatosDiaActualShowsMaya() {
   try {
-    var hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('SPAM SHOWS PARAISO MAYA');
-    if (!hoja) return { show: '', lugar: '', hora: '', actividades: '' };
+    var SHOWS_MAYA_SS_ID  = '11oSPaNKB_0ImD0CZHXBalSyoPCUTlP64EDIiGPjjaLg';
+    var SHOWS_MAYA_GID    = 1896699865;
+
+    var ss = SpreadsheetApp.openById(SHOWS_MAYA_SS_ID);
+    var hoja = ss.getSheets().find(function(s) { return s.getSheetId() === SHOWS_MAYA_GID; });
+    if (!hoja) {
+      Logger.log('getDatosDiaActualShowsMaya: no se encontró la hoja con GID ' + SHOWS_MAYA_GID);
+      return { show: '', lugar: '', hora: '', actividades: '' };
+    }
 
     // getDay(): 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb
     var dia = new Date().getDay();
