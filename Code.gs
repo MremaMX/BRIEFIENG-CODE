@@ -894,6 +894,7 @@ function onOpen() {
       .addToUi();
   } catch(e){ Logger.log('onOpen Acciones menu skipped: ' + e); }
   try {
+    try { guardarSpreadsheetId(); } catch(e) { Logger.log('guardarSpreadsheetId skipped: ' + e); }
     normalizeStoredWidthToSheet();
     updateHoyRow();
     updateSelectorRow();
@@ -3312,14 +3313,45 @@ function traducirShow(texto, targetLang) {
 }
 
 /**
+ * guardarSpreadsheetId()
+ * Guarda el ID del spreadsheet activo en PropertiesService.
+ * Llamar desde onOpen() para que esté disponible cuando la webapp corra.
+ */
+function guardarSpreadsheetId() {
+  try {
+    var id = SpreadsheetApp.getActiveSpreadsheet().getId();
+    PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', id);
+  } catch(e) {
+    Logger.log('guardarSpreadsheetId error: ' + e);
+  }
+}
+
+/**
  * getDatosDiaActualShowsMaya()
  * Detecta el día actual del servidor y retorna las celdas correspondientes
- * de la hoja "SPAM SHOWS PARAISO MAYA" en el spreadsheet activo.
+ * de la hoja "SPAM SHOWS PARAISO MAYA".
+ * Usa openById para funcionar tanto desde la hoja como desde la webapp desplegada.
  * Retorna: { show, lugar, hora, actividades }
  */
 function getDatosDiaActualShowsMaya() {
   try {
-    var hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('SPAM SHOWS PARAISO MAYA');
+    var ss;
+    // Intentar primero con getActiveSpreadsheet (contexto de hoja)
+    try {
+      ss = SpreadsheetApp.getActiveSpreadsheet();
+    } catch(e) { ss = null; }
+
+    // Si no hay spreadsheet activo (contexto webapp), usar el ID guardado
+    if (!ss) {
+      var ssId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+      if (!ssId) {
+        Logger.log('getDatosDiaActualShowsMaya: no hay SPREADSHEET_ID en PropertiesService');
+        return { show: '', lugar: '', hora: '', actividades: '' };
+      }
+      ss = SpreadsheetApp.openById(ssId);
+    }
+
+    var hoja = ss.getSheetByName('SPAM SHOWS PARAISO MAYA');
     if (!hoja) {
       Logger.log('getDatosDiaActualShowsMaya: no se encontró la hoja SPAM SHOWS PARAISO MAYA');
       return { show: '', lugar: '', hora: '', actividades: '' };
