@@ -3369,11 +3369,15 @@ function getDatosDiaActualShowsMaya() {
       6: [36, 37, 38, 40]  // Sábado
     };
     var f = filas[dia];
+    var show        = hoja.getRange('C' + f[0]).getDisplayValue();
+    var lugar       = hoja.getRange('C' + f[1]).getDisplayValue();
+    var hora        = hoja.getRange('C' + f[2]).getDisplayValue();
+    var actividades = hoja.getRange('C' + f[3]).getValue();
     return {
-      show:        hoja.getRange('C' + f[0]).getValue() || '',
-      lugar:       hoja.getRange('C' + f[1]).getValue() || '',
-      hora:        hoja.getRange('C' + f[2]).getValue() || '',
-      actividades: hoja.getRange('C' + f[3]).getValue() || ''
+      show:        show        || '',
+      lugar:       lugar       || '',
+      hora:        hora        || '',
+      actividades: actividades ? String(actividades) : ''
     };
   } catch(e) {
     Logger.log('getDatosDiaActualShowsMaya error: ' + e);
